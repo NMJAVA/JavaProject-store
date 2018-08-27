@@ -40,7 +40,6 @@ public class DataBaseHelper {
 		String sql;
 		sql = "SELECT * FROM employees";
 		ResultSet rs = stmt.executeQuery(sql);
-		System.out.println( "asds" );
 		while( rs.next() ) {
 			Employee worker = new Employee( rs.getString("name") , rs.getString("last_name") , rs.getString("address"), rs.getString("phone"), rs.getString("email") );
 		}
