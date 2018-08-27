@@ -5,7 +5,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		//launch(args);
-		Login lg =new Login();
+		//LoginForm lg =new LoginForm();
 
 	}
 
