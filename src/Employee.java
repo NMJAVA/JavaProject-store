@@ -1,10 +1,16 @@
 
-public abstract class Employee extends EmployeeHelper {
+public class Employee {
 	 int id;
 	 String	firstName; 
 	 String	lastName;
-	 Adress adress;
+	 Address address;
 	 String phone;
-	 String Email; 
+	 String email;
+	public Employee(){
+
+	}
+	public Employee( String firstName , String lastName, String address, String phone, String email ){
+
+	}
 	
 }

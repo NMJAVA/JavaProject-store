@@ -23,7 +23,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="02c48014-8046-4a63-b5b7-9822aace6800">
+        <schema name="javastore" object-types="column, constraint, function, index, procedure, table, dataset trigger, view" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="02c48014-8046-4a63-b5b7-9822aace6800">
@@ -32,6 +36,9 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="02c48014-8046-4a63-b5b7-9822aace6800" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-list connection-id="02c48014-8046-4a63-b5b7-9822aace6800" dataset="javastore.employees" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -62,7 +69,7 @@
           <description value="Java Store Project" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="5.7" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
