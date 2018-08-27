@@ -6,9 +6,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public class Login extends JFrame{
+public class LoginForm extends JFrame{
 	
-	public Login(){
+	public LoginForm(){
 		setTitle("Login");
 		setResizable(false);
 		setLocation(500,500);
@@ -57,11 +57,6 @@ public class Login extends JFrame{
 		add(mainPanel);
 		pack();
 		setVisible(true);
-		
-	}
-
-	public static void main(String[] args) {
-		Login lg =new Login();
 		
 	}
 }
