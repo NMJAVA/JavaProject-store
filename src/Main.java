@@ -8,11 +8,12 @@ public class Main extends Application {
 
 	public static void main(String[] args) throws SQLException {
 		//launch(args);
-		DataBaseHelper conn = new DataBaseHelper();
+		DataBaseHelper dbHelper = new DataBaseHelper();
 		//LoginForm lg =new LoginForm();
 		try{
-			conn.ViewTable();
-			conn.destroy();
+			//dbHelper.getTableResultSet( "employees" );
+			dbHelper.insert( "employees" , new String[] {"name" , "last_name"} ,  new String[] { "Or2" , "Papo2" } );
+			dbHelper.destroy();
 		} catch(Exception e){
 			e.getMessage();
 		}
