@@ -9,7 +9,8 @@ public class Employee {
 	public Employee(){
 
 	}
-	public Employee( String firstName , String lastName, String address, String phone, String email ){
+	public Employee( int id , String firstName , String lastName, String address, String phone, String email ){
+		setId( id );
 		setFirstName( firstName );
 		setLastName( lastName );
 		setAddress( new Address(address) );

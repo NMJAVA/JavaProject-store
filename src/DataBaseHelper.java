@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.lang.*;
+
 public class DataBaseHelper {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -42,18 +43,6 @@ public class DataBaseHelper {
 		sql  = "SELECT * FROM " + tableName;
 		ResultSet rs = stmt.executeQuery(sql);
 		return rs;
-		/*
-		while( rs.next() ) {
-			Employee worker = new Employee( rs.getString("name") , rs.getString("last_name") , rs.getString("address"), rs.getString("phone"), rs.getString("email") );
-			System.out.println( worker.firstName);
-		}
-		rs.close();
-		*/
-	}
-
-	public void destroy() throws SQLException{
-		stmt.close();
-		conn.close();
 	}
 
 	public boolean insert(String tableName , String[] keys , String[] values ) throws SQLException{
@@ -79,5 +68,10 @@ public class DataBaseHelper {
 			System.out.println( e.getMessage() );
 			return false;
 		}
+	}
+
+	public void destroy() throws SQLException{
+		stmt.close();
+		conn.close();
 	}
 }
