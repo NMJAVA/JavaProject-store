@@ -6,14 +6,21 @@ public class Employee {
 	 Address address;
 	 String phone;
 	 String email;
-	public Employee(){
 
-	}
+	/**
+	 * Constructor - Insert all the args to this Employee Instant
+	 * @param id [int]
+	 * @param firstName [String]
+	 * @param lastName [String]
+	 * @param address [String]
+	 * @param phone [String]
+	 * @param email [String]
+	 */
 	public Employee( int id , String firstName , String lastName, String address, String phone, String email ){
 		setId( id );
 		setFirstName( firstName );
 		setLastName( lastName );
-		setAddress( new Address(address) );
+		setAddress( new Address(address) ); // Casting From String to Address Class
 		setPhone( phone );
 		setEmail( email );
 	}

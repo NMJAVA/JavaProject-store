@@ -13,6 +13,9 @@ public class DataBaseHelper {
 	Connection conn = null;
 	Statement  stmt = null;
 
+	/**
+	 * Constructor - Create connection to the DataBase
+	 */
 	public DataBaseHelper() {
 
 		try {
@@ -37,14 +40,37 @@ public class DataBaseHelper {
 			}//end finally try
 		}//end try
 	}
-	public ResultSet getTableResultSet( String tableName ) throws SQLException{
-		String sql;
-		stmt = conn.createStatement();
-		sql  = "SELECT * FROM " + tableName;
+
+	/**
+	 * Return ResultSet by given sql statement [ String ]
+	 * @param sql [String]
+	 * @return ResultSet of the executeQuery
+	 * @throws SQLException
+	 */
+	public ResultSet getResult( String sql ) throws SQLException{
+		stmt = conn.createStatement();;
 		ResultSet rs = stmt.executeQuery(sql);
 		return rs;
 	}
+	/**
+	 * Return ResultSet of all the rows in the specific given tableName  [ String ]
+	 * @param tableName [String]
+	 * @return ResultSet of the executeQuery
+	 * @throws SQLException
+	 */
+	public ResultSet getTableResultSet( String tableName ) throws SQLException{
+		return getResult( "SELECT * FROM " + tableName );
+	}
 
+	/**
+	 * Insert to the DataBase New Values By given tableName array of keys and array of values
+	 * Length of both StringArrays need to be the same ( Or we get sql Error )
+	 * @param tableName [String]
+	 * @param keys [Array of strings]
+	 * @param values [Array of strings]
+	 * @return true on success | false on failed
+	 * @throws SQLException
+	 */
 	public boolean insert(String tableName , String[] keys , String[] values ) throws SQLException{
 		try {
 			String sql;
@@ -70,6 +96,11 @@ public class DataBaseHelper {
 		}
 	}
 
+	/**
+	 * Kind of destructor ( need to be called )
+	 * At the END of our program ( this close the connections and statements we used )
+	 * @throws SQLException
+	 */
 	public void destroy() throws SQLException{
 		stmt.close();
 		conn.close();

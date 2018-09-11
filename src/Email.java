@@ -1,7 +1,12 @@
 
 public class Email {
-	
-	boolean getEmail(String email) {
+
+	/**
+	 * check if email is Valid
+	 * @param email
+	 * @return true on valid | false on failed
+	 */
+	boolean isValid(String email) {
 		int iOfAt=email.indexOf('@');
 			if((iOfAt)>0)
 				if(iOfAt<(email.length()-3))

@@ -3,13 +3,23 @@ public class Address {
 	int houseNumber;
 	String street;
 	String city;
-	
+
+	/**
+	 * Constructor
+	 * @param City [String]
+	 * @param Street [String]
+	 * @param HouseNumber [int]
+	 */
 	Address(String City,String Street,int HouseNumber)
 	{
 		setCity(City);
 		setStreet(Street);
 		setHouseNumber(HouseNumber);
 	}
+	/**
+	 * Constructor - Split One String to City And Street
+	 * @param fullAddress [String]
+	 */
 	Address( String fullAddress ){
 		String[] addressParts = fullAddress.split(",");
 		if(addressParts.length > 0 && addressParts[0] != null ){
