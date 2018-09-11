@@ -97,6 +97,32 @@ public class DataBaseHelper {
 	}
 
 	/**
+	 * Update Column in specific row by the ID of the row
+	 * @param tableName [String]
+	 * @param key [String]
+	 * @param value [String]
+	 * @param ID [INT]
+	 * @return true on update success | false on failed
+	 * @throws SQLException
+	 */
+	public boolean update(String tableName , String key , String value , int ID ) throws SQLException{
+		String query = "UPDATE ? SET ? = ? WHERE ID = ?";
+		try{
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+			preparedStmt.setString   (1, tableName );
+			preparedStmt.setString   (2, key);
+			preparedStmt.setString   (3, value );
+			preparedStmt.setInt	 	 (4, ID );
+
+			preparedStmt.executeUpdate();
+		} catch (Exception e){
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Kind of destructor ( need to be called )
 	 * At the END of our program ( this close the connections and statements we used )
 	 * @throws SQLException

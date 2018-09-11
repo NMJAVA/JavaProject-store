@@ -1,6 +1,12 @@
 
 public class Email {
 
+	String email;
+
+	public Email(String email) {
+		this.email = email;
+	}
+
 	/**
 	 * check if email is Valid
 	 * @param email
@@ -16,5 +22,7 @@ public class Email {
 				}
 			return false;
 	}
-	String email;
+	public String getEmailString(){
+		return email;
+	}
 }

@@ -49,8 +49,8 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public Address getAddress() {
-		return address;
+	public String getAddress() {
+		return address.getAsString();
 	}
 
 	public void setAddress(Address address) {
@@ -65,8 +65,8 @@ public class Employee {
 		this.phone = phone;
 	}
 
-	public String getEmail() {
-		return email;
+	public Email getEmail() {
+		return new Email(email);
 	}
 
 	public void setEmail(String email) {

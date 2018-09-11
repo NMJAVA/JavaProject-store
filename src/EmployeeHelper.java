@@ -3,8 +3,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class EmployeeHelper {
-	public void Insert(Employee employee) {
-		
+	/**
+	 * Register New Employee to our database ( insert ) by given Employee Object and password
+	 * @param employee [Employee]
+	 * @param password [String]
+	 * @return Employee Object On Success | null to failed
+	 */
+	public Employee register( Employee employee , String password) {
+		try{
+			DataBaseHelper db  = new DataBaseHelper();
+			String[] keys   = { "name" , "last_name" , "address" , "phone" , "email" , "password" };
+			String[] values = {
+						employee.getFirstName(),
+						employee.getLastName(),
+						employee.getAddress(),
+						employee.getPhone(),
+						employee.getEmail().getEmailString(),
+						PasswordUtils.generateSecurePassword( password , PasswordUtils.getSalt() )
+					};
+			if( db.insert( "employee" ,keys , values ) ){
+				Employee newEmployee = this.GetByEmail( employee.getEmail() );
+				return newEmployee;
+			}
+		} catch ( Exception e ){}
+		return null;
 	};
 
 	/**
@@ -88,8 +110,18 @@ public class EmployeeHelper {
 		}catch ( Exception e ){}
 		return null;
 	};
-	public void Update(Employee employee){
-		
+
+	/**
+	 * Update Employee Fields in the DataBase
+	 * @param employee [Employee]
+	 * @throws SQLException
+	 */
+	public void update(Employee employee) throws SQLException {
+		DataBaseHelper db  = new DataBaseHelper();
+		db.update( "employee" , "name" , employee.getFirstName() , employee.getId() );
+		db.update( "employee" , "last_name" , employee.getLastName() , employee.getId() );
+		db.update( "employee" , "address" , employee.getAddress() , employee.getId() );
+		db.update( "employee" , "phone" , employee.getPhone() , employee.getId() );
 	};
 	public void ImportWordFile(){
 		
@@ -128,5 +160,14 @@ public class EmployeeHelper {
 			System.out.println( "Address: " + tmpEmployee.getAddress() );
 			System.out.println( "-------");
 		}
+	}
+
+	/**
+	 * Register new Employee by given Employee Object ( Insert To DB )
+	 * @param employee [Employee Object]
+	 * @return ID of new Employee | null on failed
+	 */
+	public int register( Employee employee){
+
 	}
 }
