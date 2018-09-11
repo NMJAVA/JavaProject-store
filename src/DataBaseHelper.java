@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.lang.*;
+
 public class DataBaseHelper {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -35,15 +37,37 @@ public class DataBaseHelper {
 			}//end finally try
 		}//end try
 	}
-	public void ViewTable() throws SQLException{
-		stmt = conn.createStatement();
+	public ResultSet getTableResultSet( String tableName ) throws SQLException{
 		String sql;
-		sql = "SELECT * FROM employees";
+		stmt = conn.createStatement();
+		sql  = "SELECT * FROM " + tableName;
 		ResultSet rs = stmt.executeQuery(sql);
-		while( rs.next() ) {
-			Employee worker = new Employee( rs.getString("name") , rs.getString("last_name") , rs.getString("address"), rs.getString("phone"), rs.getString("email") );
+		return rs;
+	}
+
+	public boolean insert(String tableName , String[] keys , String[] values ) throws SQLException{
+		try {
+			String sql;
+			stmt = conn.createStatement();
+			sql = "INSERT INTO " + tableName + " (";
+			for (int i = 0; i < keys.length; i++) {
+				sql += keys[i];
+				if (keys.length != (i + 1))
+					sql += ", ";
+			}
+			sql += " ) VALUES( ";
+			for (int i = 0; i < values.length; i++) {
+				sql += '"' + values[i] + '"';
+				if (values.length != (i + 1))
+					sql += ", ";
+			}
+			sql += ")";
+			int rows = stmt.executeUpdate(sql);
+			return true;
+		} catch(Exception e){
+			System.out.println( e.getMessage() );
+			return false;
 		}
-		rs.close();
 	}
 
 	public void destroy() throws SQLException{
