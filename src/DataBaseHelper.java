@@ -16,8 +16,8 @@ public class DataBaseHelper {
 	/**
 	 * Constructor - Create connection to the DataBase
 	 */
-	public DataBaseHelper() {
-
+	public DataBaseHelper(){
+		System.out.println( "123" );
 		try {
 			//Register JDBC driver
 			Class.forName("com.mysql.cj.jdbc.Driver");

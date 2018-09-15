@@ -24,6 +24,14 @@ public class Employee {
 		setPhone( phone );
 		setEmail( email );
 	}
+	public Employee( String firstName , String lastName, String address, String phone, String email ){
+		setFirstName( firstName );
+		setLastName( lastName );
+		setAddress( new Address(address) ); // Casting From String to Address Class
+		setPhone( phone );
+		setEmail( email );
+		System.out.println( lastName );
+	}
 
 	public int getId() {
 		return id;
@@ -65,9 +73,7 @@ public class Employee {
 		this.phone = phone;
 	}
 
-	public Email getEmail() {
-		return new Email(email);
-	}
+	public Email getEmail() { return new Email(email); }
 
 	public void setEmail(String email) {
 		this.email = email;

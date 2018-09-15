@@ -21,16 +21,16 @@ public class Address {
 	 * @param fullAddress [String]
 	 */
 	Address( String fullAddress ){
+
 		String[] addressParts = fullAddress.split(",");
+
 		if(addressParts.length > 0 && addressParts[0] != null ){
 			setCity( addressParts[0] );
 		}
 		if(addressParts.length > 1 && addressParts[1] != null){
 			String[] fullStreet = addressParts[1].split( " " );
 			setStreet( fullStreet[0] );
-			if(fullStreet.length > 1 && fullStreet[1] != null){
-				setHouseNumber( Integer.parseInt( fullStreet[1] ) );
-			}
+			setHouseNumber( 0 );
 		}
 	}
 

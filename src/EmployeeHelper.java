@@ -161,13 +161,4 @@ public class EmployeeHelper {
 			System.out.println( "-------");
 		}
 	}
-
-	/**
-	 * Register new Employee by given Employee Object ( Insert To DB )
-	 * @param employee [Employee Object]
-	 * @return ID of new Employee | null on failed
-	 */
-	public int register( Employee employee){
-
-	}
 }
