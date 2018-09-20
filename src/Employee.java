@@ -1,6 +1,7 @@
 
 public class Employee {
 	 int id;
+	 boolean isloggedin = false;
 	 String	firstName; 
 	 String	lastName;
 	 Address address;
@@ -23,6 +24,7 @@ public class Employee {
 		setAddress( new Address(address) ); // Casting From String to Address Class
 		setPhone( phone );
 		setEmail( email );
+		this.isloggedin = true;
 	}
 	public Employee( String firstName , String lastName, String address, String phone, String email ){
 		setFirstName( firstName );
@@ -30,9 +32,15 @@ public class Employee {
 		setAddress( new Address(address) ); // Casting From String to Address Class
 		setPhone( phone );
 		setEmail( email );
-		System.out.println( lastName );
+		this.isloggedin = false;
 	}
 
+	public Employee() {
+		this.isloggedin = false;
+	}
+	public boolean isLoggedIn(){
+		return this.isloggedin;
+	}
 	public int getId() {
 		return id;
 	}
@@ -77,5 +85,18 @@ public class Employee {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSecuredPassword(){
+			try{
+				if( id != 0  ){
+					DataBaseHelper db  = new DataBaseHelper();
+					String SecuredPassword = db.get( "employees" , "password" , "id = '" + id + "'" );
+					return SecuredPassword;
+				}
+			}catch ( Exception e ){
+				System.out.println(e.getMessage());
+			}
+		return null;
 	}
 }

@@ -11,23 +11,42 @@ public class EmployeeHelper {
 	 */
 	public Employee register( Employee employee , String password) {
 		try{
-			DataBaseHelper db  = new DataBaseHelper();
-			String[] keys   = { "name" , "last_name" , "address" , "phone" , "email" , "password" };
-			String[] values = {
+			if( ! isExist( employee.getEmail() ) ){
+				DataBaseHelper db  = new DataBaseHelper();
+				String[] keys   = { "name" , "last_name" , "address" , "phone" , "email" , "password" };
+				String[] values = {
 						employee.getFirstName(),
 						employee.getLastName(),
 						employee.getAddress(),
 						employee.getPhone(),
 						employee.getEmail().getEmailString(),
 						PasswordUtils.generateSecurePassword( password , PasswordUtils.getSalt() )
-					};
-			if( db.insert( "employee" ,keys , values ) ){
-				Employee newEmployee = this.GetByEmail( employee.getEmail() );
-				return newEmployee;
+				};
+				if( db.insert( "employees" ,keys , values ) ){
+					Employee newEmployee = this.GetByEmail( employee.getEmail() );
+					return newEmployee;
+				}
+			} else{
+				return null;
 			}
 		} catch ( Exception e ){}
 		return null;
 	};
+
+	public Employee login( Email email , String password ){
+		try{
+			Employee tmpEmplotee = GetByEmail( email );
+			if( tmpEmplotee != null ){
+				if( PasswordUtils.verifyUserPassword( password , tmpEmplotee.getSecuredPassword() ,  PasswordUtils.getSalt() ) ){
+					return tmpEmplotee;
+				} else{
+				}
+			}
+		} catch ( Exception e ){
+			System.out.println( e.getMessage() );
+		}
+		return new Employee();
+	}
 
 	/**
 	 * Check if employee exist by ID(int)
@@ -35,17 +54,16 @@ public class EmployeeHelper {
 	 * @return true on exist | false on failed
 	 */
 	public boolean isExist( int ID ) {
-		boolean exist = false;
 		try{
 			DataBaseHelper db  = new DataBaseHelper();
 			ResultSet rs       = db.getResult( "SELECT ID FROM employees WHERE ID =" + ID );
 			if( rs.next() ) {
-				exist = true;
+				return true;
 			}
 			rs.close();
 
 		}catch ( Exception e ){}
-		return exist;
+		return false;
 	};
 	/**
 	 * Check if employee exist by email(Email)
@@ -53,17 +71,16 @@ public class EmployeeHelper {
 	 * @return true on exist | false on failed
 	 */
 	public boolean isExist( Email email ) {
-		boolean exist = false;
 		try{
 			DataBaseHelper db  = new DataBaseHelper();
-			ResultSet rs       = db.getResult( "SELECT ID FROM employees WHERE email =" + email );
+			ResultSet rs       = db.getResult( "SELECT ID FROM employees WHERE email ='" + email.getEmailString() + "'" );
 			if( rs.next() ) {
-				exist = true;
+				return true;
 			}
 			rs.close();
 
-		}catch ( Exception e ){}
-		return exist;
+		}catch ( Exception e ){ System.out.println( e.getMessage() );}
+		return false;
 	};
 
 	/**
@@ -74,7 +91,7 @@ public class EmployeeHelper {
 	public Employee GetByEmail( Email email ) {
 		DataBaseHelper db  = new DataBaseHelper();
 		try{
-			ResultSet rs   = db.getResult( "SELECT * FROM employees WHERE email =" + email );
+			ResultSet rs   = db.getResult( "SELECT * FROM employees WHERE email ='" + email.getEmailString() + "'" );
 			if( rs.next() ){
 				return new Employee(
 							rs.getInt("id"),
@@ -85,7 +102,9 @@ public class EmployeeHelper {
 							rs.getString("email")
 						);
 			}
-		}catch ( Exception e ){}
+		}catch ( Exception e ){
+			System.out.println( e.getMessage());
+		}
 			return null;
 	};
 	/**
@@ -141,7 +160,9 @@ public class EmployeeHelper {
 				allEmployees.add( new Employee( rs.getInt("id") , rs.getString("name") , rs.getString("last_name") , rs.getString("address"), rs.getString("phone"), rs.getString("email") ) );
 			}
 			rs.close();
-		}catch ( Exception e ){}
+		}catch ( Exception e ){
+			System.out.println( e.getMessage() );
+		}
 		return allEmployees;
 	}
 
@@ -155,7 +176,7 @@ public class EmployeeHelper {
 		for( int i=0;i<allEmployees.size(); i++){
 			Employee tmpEmployee = allEmployees.get(i);
 			System.out.println( "Name: " + tmpEmployee.getFirstName() + " " + tmpEmployee.getLastName() + " (" + tmpEmployee.getId() + ")");
-			System.out.println( "Email: " + tmpEmployee.getEmail() );
+			System.out.println( "Email: " + tmpEmployee.getEmail().getEmailString() );
 			System.out.println( "Phone: " + tmpEmployee.getPhone() );
 			System.out.println( "Address: " + tmpEmployee.getAddress() );
 			System.out.println( "-------");

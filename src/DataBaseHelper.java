@@ -17,7 +17,6 @@ public class DataBaseHelper {
 	 * Constructor - Create connection to the DataBase
 	 */
 	public DataBaseHelper(){
-		System.out.println( "123" );
 		try {
 			//Register JDBC driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -48,7 +47,7 @@ public class DataBaseHelper {
 	 * @throws SQLException
 	 */
 	public ResultSet getResult( String sql ) throws SQLException{
-		stmt = conn.createStatement();;
+		stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		return rs;
 	}
@@ -121,6 +120,19 @@ public class DataBaseHelper {
 		}
 		return true;
 	}
+
+	public String get( String tableName , String key , String where ) {
+		try{
+			DataBaseHelper db  = new DataBaseHelper();
+			ResultSet rs       = db.getResult( "SELECT " + key + " FROM " + tableName + " WHERE " + where);
+			if( rs.next() ) {
+				return rs.getString( key );
+			}
+			rs.close();
+
+		}catch ( Exception e ){}
+		return null;
+	};
 
 	/**
 	 * Kind of destructor ( need to be called )
