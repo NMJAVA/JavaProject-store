@@ -16,13 +16,17 @@ public class Main  {
 		try{
 			//dbHelper.getTableResultSet( "employees" );
 			//dbHelper.insert( "employees" , new String[] {"name" , "last_name"} ,  new String[] { "Or2" , "Papo2" } );
-			EmployeeHelper employeeHelper = new EmployeeHelper();
-			Employee employeeToRegister = new Employee("Niv", "Noiman", "Rishon Lezzion, Maccabi Zahir, 6", "0524011331" , "niv945@gmail.com" );
-			employeeHelper.register( employeeToRegister  , "123456789" );
-			employeeHelper.printAllEmployees();
-			Employee employee =  employeeHelper.login( new Email( "niv945@gmail.com" ) , "1223456789" );
-			if( employee.isLoggedIn() ){
-				System.out.println( employee.getFirstName() + " Is Logged IN !");
+			MemberHelper MemberHelper = new EmployeeHelper();
+			Member memberToRegister = new Member("Niv", "Noiman", "Rishon Lezzion, Maccabi Zahir, 6", "0524011331" , "niv945@gmail.com" );
+			Member newMember = MemberHelper.register( memberToRegister  , "123456789" );
+			if( newMember != null ){
+				MemberHelper.printAllMembers();
+			} else{
+				System.out.println("User Already Registerd");
+			}
+			Member member =  MemberHelper.login( new Email( "niv945@gmail.com" ) , "123456789" );
+			if( member.isLoggedIn() ){
+				System.out.println( member.getFirstName() + " Is Logged IN !");
 			} else{
 				System.out.println( "Email Or Password Is Incorrect ");
 			}
