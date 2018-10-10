@@ -16,6 +16,9 @@ public class Main  {
 		try{
 			//dbHelper.getTableResultSet( "employees" );
 			//dbHelper.insert( "employees" , new String[] {"name" , "last_name"} ,  new String[] { "Or2" , "Papo2" } );
+
+			/* Member - Employee*/
+			//////////////////////
 			MemberHelper MemberHelper = new EmployeeHelper();
 			Member memberToRegister = new Member("Niv", "Noiman", "Rishon Lezzion, Maccabi Zahir, 6", "0524011331" , "niv945@gmail.com" );
 			Member newMember = MemberHelper.register( memberToRegister  , "123456789" );
@@ -30,6 +33,18 @@ public class Main  {
 			} else{
 				System.out.println( "Email Or Password Is Incorrect ");
 			}
+
+			/* Product */
+			/////////////
+			ProductHelper ProductHelper = new ProductHelper();
+			Product productToInsert     = new Product( "1" , "Jeans" , "trousers" , "M" , 500, 20 );
+			Product newProduct = ProductHelper.insert( productToInsert );
+			if( newProduct != null ){
+				System.out.println("Product Insert Successfully");
+			} else{
+				System.out.println("Product Already Inserted");
+			}
+			ProductHelper.printAllProducts();
 		} catch(Exception e){
 			System.out.println( e.getMessage() );
 		}

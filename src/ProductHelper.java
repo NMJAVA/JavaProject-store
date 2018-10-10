@@ -12,16 +12,18 @@ public class ProductHelper {
 		try{
 			if( ! isExist( product.getSKU() ) ){
 				DataBaseHelper db  = new DataBaseHelper();
-				String[] keys   = { "sku" , "name" , "type" , "size" , "price"};
+				String[] keys   = { "sku" , "name" , "type" , "size" , "price" };
 				String[] values = {
 						product.getSKU(),
 						product.getName(),
 						product.getType(),
 						product.getSize(),
-						product.getPrice()
+						product.getPrice().toString()
 				};
 				if( db.insert( "products" ,keys , values ) ){
 					Product newProduct = this.GetBySKU( product.getSKU() );
+					// Update Inventory with the new product
+					db.insert( "inventory" , new String[] {"product_sku" , "amount"} , new String[] {product.getSKU() , product.getAmount().toString() } );
 					return newProduct;
 				}
 			} else{
@@ -59,14 +61,19 @@ public class ProductHelper {
 		try{
 			ResultSet rs   = db.getResult( "SELECT * FROM products WHERE sku ='" + sku + "'" );
 			if( rs.next() ){
-				return new Product(
+				Product tmpProduct =  new Product(
 						rs.getInt("ID"),
 						rs.getString("sku"),
 						rs.getString("name"),
 						rs.getString("type"),
 						rs.getString("size"),
-						rs.getString("price")
+						rs.getInt("price")
 				);
+				ResultSet rs2   = db.getResult( "SELECT * FROM inventory WHERE product_sku ='" + sku + "'" );
+				if( rs2.next() ){
+					tmpProduct.setAmount(rs2.getInt("amount"));
+				}
+				return tmpProduct;
 			}
 		}catch ( Exception e ){
 			System.out.println( e.getMessage());
@@ -86,6 +93,7 @@ public class ProductHelper {
 		db.update( "members" , "type" , product.getType() , product_id );
 		db.update( "members" , "size" , product.getSize() , product_id );
 		db.update( "members" , "price" , product.getPrice() , product_id );
+		db.update( "inventory" , "amount" , (float)product.getAmount() , "product_sku" , product.getSKU() );
 	};
 
 	/**
@@ -99,14 +107,19 @@ public class ProductHelper {
 			DataBaseHelper db  = new DataBaseHelper();
 			ResultSet rs       = db.getTableResultSet( "products" );
 			while( rs.next() ) {
-				allProducts.add( new Product(
+				Product tmpProduct = new Product(
 						rs.getInt("ID"),
 						rs.getString("sku"),
 						rs.getString("name"),
 						rs.getString("type"),
 						rs.getString("size"),
-						rs.getString("price")
+						rs.getInt("price")
 				);
+				ResultSet rs2   = db.getResult( "SELECT * FROM inventory WHERE product_sku ='" + tmpProduct.getSKU() + "'" );
+				if( rs2.next() ){
+					tmpProduct.setAmount(rs2.getInt("amount"));
+				}
+				allProducts.add(tmpProduct);
 			}
 			rs.close();
 		}catch ( Exception e ){
@@ -129,6 +142,7 @@ public class ProductHelper {
 			System.out.println( "Type: " + tmpProduct.getType() );
 			System.out.println( "Size: " + tmpProduct.getSize() );
 			System.out.println( "Price: " + tmpProduct.getPrice() );
+			System.out.println( "Amount: " + tmpProduct.getAmount() );
 			System.out.println( "-------");
 		}
 	}

@@ -1,10 +1,11 @@
 public class Product {
 	int id;
-	String name;
-	String sku;
-	String type;
-	String size;
-	String price;
+	String  name;
+	String  sku;
+	String  type;
+	String  size;
+	Integer price;
+	Integer amount;
 
 	/**
 	 * Constructor - Insert all the args to this Product Instant
@@ -13,9 +14,9 @@ public class Product {
 	 * @param name [String]
 	 * @param type [String]
 	 * @param size [String]
-	 * @param price [String]
+	 * @param price [Float]
 	 */
-	public Product( int id , String sku , String name, String type, String size, String price ){
+	public Product( int id , String sku , String name, String type, String size, Integer price ){
 		setId( id );
 		setSKU( sku );
 		setName( name );
@@ -23,12 +24,13 @@ public class Product {
 		setSize( size );
 		setPrice( price );
 	}
-	public Product( String sku , String name, String type, String size, String price ){
+	public Product( String sku , String name, String type, String size, Integer price ,Integer amount ){
 		setSKU( sku );
 		setName( name );
 		setType( type );
 		setSize( size );
 		setPrice( price );
+		setAmount( amount );
 	}
 
 	public int getId() {
@@ -71,9 +73,15 @@ public class Product {
 		this.size = size;
 	}
 
-	public String getPrice() { return price; }
+	public Integer getPrice() { return price; }
 
-	public void setPrice(String price) {
+	public void setPrice(Integer price) {
 		this.price = price;
+	}
+
+	public Integer getAmount() { return amount; }
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 }

@@ -104,7 +104,7 @@ public class DataBaseHelper {
 	 * @return true on update success | false on failed
 	 * @throws SQLException
 	 */
-	public boolean update(String tableName , String key , String value , int ID ) throws SQLException{
+	public boolean update(String tableName , String key , String value , Integer ID ) throws SQLException{
 		String query = "UPDATE ? SET ? = ? WHERE ID = ?";
 		try{
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -116,11 +116,65 @@ public class DataBaseHelper {
 
 			preparedStmt.executeUpdate();
 		} catch (Exception e){
+			System.out.println(e.getMessage());
 			return false;
 		}
 		return true;
 	}
 
+	/**
+	 * Update Column in specific row by the ID of the row
+	 * @param tableName [String]
+	 * @param key [String]
+	 * @param value [Float]
+	 * @param ID [INT]
+	 * @return true on update success | false on failed
+	 * @throws SQLException
+	 */
+	public boolean update(String tableName , String key , Integer value , Integer ID ) throws SQLException{
+		String query = "UPDATE ? SET ? = ? WHERE ID = ?";
+		try{
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt.setString   (1, tableName );
+			preparedStmt.setString   (2, key);
+			preparedStmt.setInt      (3, value );
+			preparedStmt.setInt	 	 (4, ID );
+			preparedStmt.executeUpdate();
+		} catch (Exception e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Update Column in specific row by the column_key of the row
+	 * @param tableName [String]
+	 * @param key [String]
+	 * @param value [Float]
+	 * @param column_key [String]
+	 * @param column_value [String]
+	 * @return true on update success | false on failed
+	 * @throws SQLException
+	 */
+	public boolean update(String tableName , String key , Float value , String column_key ,String column_value ) throws SQLException{
+		String query = "UPDATE ? SET ? = ? WHERE ? = ?";
+		try{
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+			preparedStmt.setString  (1, tableName );
+			preparedStmt.setString  (2, key );
+			preparedStmt.setFloat   (3, value );
+			preparedStmt.setString	(4, column_key );
+			preparedStmt.setString	(5, column_value );
+
+			preparedStmt.executeUpdate();
+		} catch (Exception e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return true;
+	}
 	public String get( String tableName , String key , String where ) {
 		try{
 			DataBaseHelper db  = new DataBaseHelper();
