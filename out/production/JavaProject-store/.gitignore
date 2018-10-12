@@ -15,3 +15,17 @@
 /ReturnCustomer.class
 /SellerEmployee.class
 /VIPCustomer.class
+/GUIFunctinos.class
+/CustomerRegisterForm$ListenForKeys.class
+/LoginForm$ListenForButton.class
+/LoginForm$ListenForKeys.class
+/CustomerRegisterForm$ListenForButton.class
+/Client.class
+/ChatGUI$ListenForButton.class
+/ChatGUI$ListenForKeys.class
+/ChatGUI.class
+/BroadcastMultiClienServer.class
+/MultiServer$1.class
+/MultiServer.class
+/SalePage.class
+/SocketData.class

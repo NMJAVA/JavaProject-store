@@ -1,81 +1,141 @@
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
-public class LoginForm extends JFrame{
+public class LoginForm extends GUIFunctinos{
+
+	private JPanel mainPanel;
+	private JLabel emailLabel;
+	private JLabel passwordLabel;
+	private JTextField emailText;
+	private JTextField passwordText;
+	private JButton loginBtn;
+
+	Socket socket;
+	DataInputStream fromNetInputStram;
+	PrintStream toNetOutputStream;
 	
-	private JPanel mainPanel= new JPanel();
-	private SpringLayout theLayout = new SpringLayout();
-	private JLabel userName = new JLabel("User Name");
-	private JTextField userNameText=new JTextField(15);
-	private JLabel Password = new JLabel("Password");
-	private JPasswordField  PasswordText=new JPasswordField (15);
-	private JButton logIng = new JButton("Login");
-	private JFrame frame=new JFrame();
+	private String passwordAttempt="";
+	private String emailAttempt="";
 	
-	public LoginForm(){
-		setTitle("Login");
-		setResizable(false);
-		setLocation(500,500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//The LoginForm constructor, create the GUI side of the login form
+	public LoginForm(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream) {
+		//Set connection to server objects variable 
 		
-		mainPanel.setLayout(theLayout);			
-		mainPanel.add(userName);		
-		mainPanel.add(userNameText);
-		mainPanel.add(Password);
-		mainPanel.add(PasswordText);
-		mainPanel.add(logIng);
-
+		this.socket=socket;
+		this.fromNetInputStram=fromNetInputStram;
+		this.toNetOutputStream=toNetOutputStream;
 		
-		theLayout.putConstraint(SpringLayout.WEST, userName, 50, SpringLayout.WEST, mainPanel);
-		theLayout.putConstraint(SpringLayout.NORTH, userName, 20, SpringLayout.NORTH, mainPanel);
-
-		theLayout.putConstraint(SpringLayout.WEST, userNameText, 5, SpringLayout.EAST, userName);
-		theLayout.putConstraint(SpringLayout.NORTH, userNameText, 20, SpringLayout.NORTH, mainPanel);
-				
-		
-		theLayout.putConstraint(SpringLayout.WEST, Password, 50, SpringLayout.WEST, mainPanel);
-		theLayout.putConstraint(SpringLayout.NORTH, Password, 12, SpringLayout.SOUTH, userName);
-
-		theLayout.putConstraint(SpringLayout.WEST, PasswordText, 10, SpringLayout.EAST, Password);
-		theLayout.putConstraint(SpringLayout.NORTH, PasswordText, 8, SpringLayout.SOUTH, userNameText);
+		//Setting the frame size
+		this.setSize(350,170);
+		//Setting the frame default location in the middle of the screen
+		this.setLocationRelativeTo(null);
+		//Disabling the option to change the size of the frame
+		this.setResizable(false);
+		//Setting the option to close the window using the X button
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//Setting the title of the frame
+		this.setTitle("Login");
 	
-		theLayout.putConstraint(SpringLayout.WEST, logIng, 50, SpringLayout.WEST, mainPanel);
-		theLayout.putConstraint(SpringLayout.NORTH, logIng, 5, SpringLayout.SOUTH, PasswordText);
-			
-		theLayout.putConstraint(SpringLayout.EAST, mainPanel, 5, SpringLayout.EAST, userNameText);
-		theLayout.putConstraint(SpringLayout.EAST, mainPanel, 5, SpringLayout.EAST, PasswordText);
-		theLayout.putConstraint(SpringLayout.SOUTH, mainPanel, 10, SpringLayout.SOUTH, logIng);
 		
-		logIng.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0){
-				String uName=userNameText.getText();
-				String pass=PasswordText.getText();
-				
-				if((uName.equals("moshe"))&& (pass.equals("moshe")))
-				{
-					JOptionPane.showMessageDialog(frame, "good");
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(frame, "Username and password are incorrect");
-				}
-				
-			}
-			});
-		add(mainPanel);
-		pack();
-		setVisible(true);
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridBagLayout());
+		
+		emailLabel =new JLabel("Email");	
+		addComp(mainPanel,emailLabel,0,0,1,1,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE);
+		
+		passwordLabel= new JLabel("Password");
+		addComp(mainPanel,passwordLabel,0,1,1,1,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE);
+		
+		emailText= new JTextField(15);
+		addComp(mainPanel,emailText,0,0,1,1,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE);
+		
+		passwordText= new JTextField(15);
+		addComp(mainPanel,passwordText,0,1,1,1,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE);
+		
+		ListenForKeys lForText=new ListenForKeys();
+		emailText.addKeyListener(lForText);
+		passwordText.addKeyListener(lForText);
+		
+		loginBtn=new JButton("Login");
+		addComp(mainPanel,loginBtn,0,2,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+		this.add(mainPanel);
+		
+		ListenForButton lForSendBtn= new ListenForButton();
+		loginBtn.addActionListener(lForSendBtn);
+		
+		//Setting the frame to be visible
+		this.setVisible(true);
 		
 	}
-}
+	
+	private class ListenForKeys implements KeyListener{
 
+		@Override
+		public void keyPressed(KeyEvent e) {
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			emailAttempt=emailText.getText();
+			passwordAttempt=passwordText.getText();
+					
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+
+	
+	private class ListenForButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource()==loginBtn) {
+		
+					toNetOutputStream.println(emailAttempt);
+					toNetOutputStream.println(passwordAttempt);
+					
+					try {
+						
+						if(fromNetInputStram.readLine().equals("true")) {
+							Toolkit.getDefaultToolkit().beep();
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				}
+			
+		
+				//send message from string
+		
+	}
+	}
+	
+	
+
+	
 
