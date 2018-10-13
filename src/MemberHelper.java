@@ -11,7 +11,7 @@ public class MemberHelper {
 	 */
 	public Member register( Member member , String password) {
 		try{
-			if( ! isExist( member.getEmail() ) ){
+			if( ! isExist( new Email( member.getEmail() ) ) ){
 				DataBaseHelper db  = new DataBaseHelper();
 				String[] keys   = { "name" , "last_name" , "address" , "phone" , "email" , "password" };
 				String[] values = {
@@ -19,11 +19,11 @@ public class MemberHelper {
 						member.getLastName(),
 						member.getAddress(),
 						member.getPhone(),
-						member.getEmail().getEmailString(),
+						member.getEmail(),
 						PasswordUtils.generateSecurePassword( password , PasswordUtils.getSalt() )
 				};
 				if( db.insert( "members" ,keys , values ) ){
-					Member newMember = this.GetByEmail( member.getEmail() );
+					Member newMember = this.GetByEmail( new Email( member.getEmail() ) );
 					return newMember;
 				}
 			} else{
@@ -35,17 +35,18 @@ public class MemberHelper {
 
 	public Member login( Email email , String password ){
 		try{
-			Member tmpMember = GetByEmail( email );
+			Member tmpMember = this.GetByEmail( email );
 			if( tmpMember != null ){
 				if( PasswordUtils.verifyUserPassword( password , tmpMember.getSecuredPassword() ,  PasswordUtils.getSalt() ) ){
 					return tmpMember;
 				} else{
+					return null;
 				}
 			}
 		} catch ( Exception e ){
 			System.out.println( e.getMessage() );
 		}
-		return new Member();
+		return null;
 	}
 
 	/**
@@ -53,7 +54,7 @@ public class MemberHelper {
 	 * @param ID
 	 * @return true on exist | false on failed
 	 */
-	public boolean isExist( int ID ) {
+	public boolean isExist( Integer ID ) {
 		try{
 			DataBaseHelper db  = new DataBaseHelper();
 			ResultSet rs       = db.getResult( "SELECT ID FROM members WHERE ID =" + ID );
@@ -73,7 +74,7 @@ public class MemberHelper {
 	public boolean isExist( Email email ) {
 		try{
 			DataBaseHelper db  = new DataBaseHelper();
-			ResultSet rs       = db.getResult( "SELECT ID FROM members WHERE email ='" + email.getEmailString() + "'" );
+			ResultSet rs       = db.getResult( "SELECT ID FROM members WHERE email ='" + email.toString() + "'" );
 			if( rs.next() ) {
 				return true;
 			}
@@ -91,7 +92,7 @@ public class MemberHelper {
 	public Member GetByEmail( Email email ) {
 		DataBaseHelper db  = new DataBaseHelper();
 		try{
-			ResultSet rs   = db.getResult( "SELECT * FROM members WHERE email ='" + email.getEmailString() + "'" );
+			ResultSet rs   = db.getResult( "SELECT * FROM members WHERE email ='" + email.toString() + "'" );
 			if( rs.next() ){
 				return new Member(
 						rs.getInt("id"),
@@ -112,7 +113,7 @@ public class MemberHelper {
 	 * @param ID
 	 * @return member
 	 */
-	public Member GetByID( int ID ) {
+	public Member GetByID( Integer ID ) {
 		DataBaseHelper db  = new DataBaseHelper();
 		try{
 			ResultSet rs   = db.getResult( "SELECT * FROM members WHERE ID =" + ID );
@@ -176,7 +177,7 @@ public class MemberHelper {
 		for( int i=0;i<allMembers.size(); i++){
 			Member tmpMember = allMembers.get(i);
 			System.out.println( "Name: " + tmpMember.getFirstName() + " " + tmpMember.getLastName() + " (" + tmpMember.getId() + ")");
-			System.out.println( "Email: " + tmpMember.getEmail().getEmailString() );
+			System.out.println( "Email: " + tmpMember.getEmail() );
 			System.out.println( "Phone: " + tmpMember.getPhone() );
 			System.out.println( "Address: " + tmpMember.getAddress() );
 			System.out.println( "-------");

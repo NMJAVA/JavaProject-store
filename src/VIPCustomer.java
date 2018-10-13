@@ -1,16 +1,11 @@
-
-public class VIPCustomer extends Customers{
-
-	@Override
-	public void Buy() {
-		// TODO Auto-generated method stub
-		
+public class VIPCustomer extends Customer {
+	public VIPCustomer(Member member) {
+		super(member);
 	}
 
 	@Override
-	public void Sell() {
-		// TODO Auto-generated method stub
-		
+	public Order buy( String productSKU , Integer employeeID ){
+		double discountRate = 0.9;
+		return super.buy( productSKU, employeeID , discountRate );
 	}
-
 }

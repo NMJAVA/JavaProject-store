@@ -1,5 +1,5 @@
 public class Product {
-	int id;
+	Integer id;
 	String  name;
 	String  sku;
 	String  type;
@@ -16,7 +16,7 @@ public class Product {
 	 * @param size [String]
 	 * @param price [Float]
 	 */
-	public Product( int id , String sku , String name, String type, String size, Integer price ){
+	public Product( Integer id , String sku , String name, String type, String size, Integer price ){
 		setId( id );
 		setSKU( sku );
 		setName( name );
@@ -33,7 +33,7 @@ public class Product {
 		setAmount( amount );
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
