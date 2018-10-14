@@ -25,13 +25,25 @@ public class MultiServer {
 						DataInputStream inputStream=new DataInputStream(socket.getInputStream());
 						PrintStream outputStream=new PrintStream(socket.getOutputStream());
 						outputStream.println("Welcom to server!");
-						
+						String pass;
+						String use;
 						String line="";
 						while(!line.equals("goodbye")) {
 							line=inputStream.readLine();
-							outputStream.println(line);
-							System.out.println(new Date() + ": "+line);
+							System.out.println(new Date() + ":"+line);
+							/*
+							use=inputStream.readLine();
+							pass=inputStream.readLine();
+							if(use.equals("jon")&&pass.equals("tim"))
+							{
+							outputStream.print("true");
+							System.out.println(new Date() + ":right");
 						}
+							else {
+								outputStream.println("false");
+							System.out.println(new Date() + ":wrong");
+							}
+						*/}
 					}catch(IOException e) {System.err.println(e);}}
 				}).start();
 				}
