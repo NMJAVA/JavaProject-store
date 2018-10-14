@@ -29,7 +29,9 @@ public class ProductHelper {
 			} else{
 				return null;
 			}
-		} catch ( Exception e ){}
+		} catch ( Exception e ){
+			System.out.println( e.getMessage() );
+		}
 		return null;
 	};
 

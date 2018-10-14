@@ -175,12 +175,42 @@ public class DataBaseHelper {
 		}
 		return true;
 	}
+	/**
+	 * Update Column in specific row by the column_key of the row
+	 * @param query [String]
+	 * @return true on update success | false on failed
+	 * @throws SQLException
+	 */
+	public boolean update(String query) throws SQLException{
+		try{
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+			preparedStmt.executeUpdate();
+		} catch (Exception e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return true;
+	}
+
 	public String get( String tableName , String key , String where ) {
 		try{
 			DataBaseHelper db  = new DataBaseHelper();
 			ResultSet rs       = db.getResult( "SELECT " + key + " FROM " + tableName + " WHERE " + where);
 			if( rs.next() ) {
 				return rs.getString( key );
+			}
+			rs.close();
+
+		}catch ( Exception e ){}
+		return null;
+	};
+	public Integer get( String tableName , String key , String where , boolean returnInt ) {
+		try{
+			DataBaseHelper db  = new DataBaseHelper();
+			ResultSet rs       = db.getResult( "SELECT " + key + " FROM " + tableName + " WHERE " + where);
+			if( rs.next() ) {
+				return rs.getInt( key );
 			}
 			rs.close();
 
