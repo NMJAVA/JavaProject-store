@@ -3,6 +3,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -28,7 +33,7 @@ public class StockGui extends JFrame{
 	private JRadioButton searchByBarcode;
 	private JRadioButton searchBySize;
 	private JPanel searchTypePanel;
-	
+	private JButton backBtn;
 	
 	public StockGui(){
 		//Setting the frame size
@@ -79,7 +84,10 @@ public class StockGui extends JFrame{
 				searchPanel.add(searchText);
 				searchPanel.add(searchBtn);
 				
+				backBtn=new JButton("Back");
+				
 				addComp(mainPanel,searchPanel,0,0,1,1,GridBagConstraints.NORTH,GridBagConstraints.NONE);
+				addComp(mainPanel,backBtn,0,0,1,1,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE);
 				addComp(mainPanel,searchTypePanel,0,0,1,1,GridBagConstraints.SOUTH,GridBagConstraints.NONE);
 				addComp(mainPanel,stockTable,0,1,3,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 				stockTable.setBorder(blackBorder);
@@ -108,4 +116,21 @@ public class StockGui extends JFrame{
 
         thePanel.add(comp, gridConstraints);
     }
+	
+
+	private class ListenForButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource()==backBtn) {	
+				}		
+			
+				}
+			
+		
+				//send message from string
+		
+	}
+	
 }

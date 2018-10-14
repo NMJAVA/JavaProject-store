@@ -12,7 +12,7 @@ public class Client{
 		DataInputStream consoleInput;
 		PrintStream toNetOutputStream;
 		String line="";
-		String serverIp="10.0.0.160";
+		String serverIp="LocalHost";
 		String Option="";
 		boolean chatOn=true;
 
