@@ -28,4 +28,24 @@ public abstract class GUIFunctinos extends JFrame{
 
         thePanel.add(comp, gridConstraints);
     }
+	
+	public boolean lttersOnly(String str) {
+		for (char c : str.toCharArray()) {
+		    if (!Character.isLetter(c)) {
+		    	System.out.print(c);
+		    	return false;
+		    }
+		}
+		 return true;
+	}
+	
+	public boolean digitOnly(String str) {
+		for (char c : str.toCharArray()) {
+		    if (!Character.isDigit(c)) {
+		    	System.out.print(c);
+		    	return false;
+		    }
+		}
+		 return true;
+	}
 }

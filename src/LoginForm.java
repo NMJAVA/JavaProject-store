@@ -133,6 +133,10 @@ public class LoginForm extends GUIFunctinos{
 				//send message from string
 		
 	}
+	
+
+	
+	
 	}
 	
 	

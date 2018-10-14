@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -182,8 +183,38 @@ public class CustomerRegisterForm extends GUIFunctinos{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==submitBtn) {
+				if(!digitOnly(id)) {
+					JOptionPane.showMessageDialog(null, "Id should contain only numbers!");
+
+				}
+				else if(!lttersOnly(firstName)) {
+					JOptionPane.showMessageDialog(null, "First Name should contain only lettes!");
+
+				}
+				else if(!lttersOnly(lastname)) {
+					JOptionPane.showMessageDialog(null, "Last Name should contain only lettes!");
+
+				}
+				else if(!lttersOnly(city)) {
+					JOptionPane.showMessageDialog(null, "City should contain only lettes!");
+
+				}
+				else if(!lttersOnly(street)) {
+					JOptionPane.showMessageDialog(null, "Street should contain only lettes!");
+
+				}
+				else if(!digitOnly(houseNumber)) {
+					JOptionPane.showMessageDialog(null, "House Number should contain only numbers!");
+
+				}
+				else if(!digitOnly(phone)) {
+					JOptionPane.showMessageDialog(null, "Phone should contain only numbers!");
+
+				}
+				else {
 				customer=(id+"|"+firstName+"|"+lastname+"|"+city+"|"+street+"|"+houseNumber+"|"+phone+"|"+email);
 				toNetOutputStream.println(customer);
+				}
 			}
 			
 		}
