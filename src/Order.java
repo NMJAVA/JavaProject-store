@@ -7,7 +7,7 @@ public class Order {
 	Integer customer_id;
 	Integer amount;
 
-	public  Order( String product_sku, String date, Integer employee_id, Integer customer_id, Integer amount){
+	public Order( String product_sku, String date, Integer employee_id, Integer customer_id, Integer amount){
 		this.setProductSKU( product_sku );
 		this.setDate( date );
 		this.setEmployeeID( employee_id );

@@ -1,8 +1,10 @@
 /*
 * Remove - extends Application |  Niv 13.09.18 [ public class Main  { ]
 * */
+
 public class Main  {
 	public static void main(String[] args){
+
 		try{
 			/* Member */
 			////////////
@@ -53,9 +55,28 @@ public class Main  {
 			} else{
 				System.out.println("Product Creation Failed: Product Already Inserted");
 			}
-			// Print All Products We Have
-			ProductHelper.printAllProducts();
+			// Insert 28 Demo Products to DB
+			//ProductHelper.insertDemoProductsToDataBase();
 
+			// Print All Products We Have
+			//ProductHelper.printAllProducts();
+
+			// Print All Products by type
+			//ProductHelper.printAllProductsByType( "trousers" );
+
+
+			/* Orders & Inventory */
+			////////////////////////
+			OrderHelper OrderHelper = new OrderHelper();
+			// Print All Orders
+			//OrderHelper.printAllOrders();
+			// Print Inventory
+			//OrderHelper.printInventory();
+
+
+
+			/* More Functions */
+			///////////////////
 			// Employee - Sell Product To Customer
 			employee.sell( productToInsert , customer.getId() );
 

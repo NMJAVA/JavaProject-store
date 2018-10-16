@@ -4,11 +4,12 @@ import java.lang.*;
 public class DataBaseHelper {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL 		= "jdbc:mysql://localhost:3306/sakila?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	static final String DB_URL 		= "jdbc:mysql://localhost:3306/javastore?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	//sakila
 
 	//  Database credentials
 	static final String USER = "root";
-	static final String PASS = "lion1989";
+	static final String PASS = "1!qaz2@wsx";//"lion1989";
 
 	Connection conn = null;
 	Statement  stmt = null;

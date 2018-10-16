@@ -109,6 +109,23 @@ public class MemberHelper {
 		return null;
 	};
 	/**
+	 * Return Member's ID by given exist email address ( email is unique )
+	 * @param email [String]
+	 * @return ID [ Integer ]
+	 */
+	public Integer GetIDByEmail( String email ) {
+		DataBaseHelper db  = new DataBaseHelper();
+		try{
+			ResultSet rs   = db.getResult( "SELECT * FROM members WHERE email ='" + email + "'" );
+			if( rs.next() ){
+				return rs.getInt("id");
+			}
+		}catch ( Exception e ){
+			System.out.println( e.getMessage());
+		}
+		return null;
+	};
+	/**
 	 * Return Member object by given exist ID ( ID is unique )
 	 * @param ID
 	 * @return member

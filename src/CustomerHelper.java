@@ -13,8 +13,14 @@ public class CustomerHelper extends MemberHelper {
 		} catch ( Exception e ){}
 		return null;
 	}
+
 	@Override
 	public Customer login( Email email , String password ){
-		return new Customer( super.login( email , password ) );
+		try {
+			Customer Customer = new Customer( super.login( email , password ) );
+			return Customer;
+		}catch(Exception e) {
+			return null;
+		}
 	}
 }
