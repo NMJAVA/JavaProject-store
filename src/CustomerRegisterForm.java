@@ -51,7 +51,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 	private String houseNumber;
 	private String street;
 	private String city;
-	private String id;
+	
 	private String	phone;
 	private String email;
 	private String customer;
@@ -89,41 +89,38 @@ public class CustomerRegisterForm extends GUIFunctinos{
 			lastNameText= new JTextField(15);
 			addComp(mainPanel,lastNameText,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
-			idLabel= new JLabel("ID");
-			addComp(mainPanel,idLabel,1,2,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
-			idText= new JTextField(15);
-			addComp(mainPanel,idText,2,2,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
+			
 			
 			phoneLabel= new JLabel("Phone");
-			addComp(mainPanel,phoneLabel,1,3,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+			addComp(mainPanel,phoneLabel,1,2,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 			phoneText= new JTextField(15);
-			addComp(mainPanel,phoneText,2,3,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
+			addComp(mainPanel,phoneText,2,2,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
 			emailLabel= new JLabel("Email");
-			addComp(mainPanel,emailLabel,1,4,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+			addComp(mainPanel,emailLabel,1,3,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 			emailText= new JTextField(15);
-			addComp(mainPanel,emailText,2,4,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
+			addComp(mainPanel,emailText,2,3,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
 			adress= new JLabel("Adress");
-			addComp(mainPanel,adress,1,5,1,1,GridBagConstraints.SOUTH,GridBagConstraints.NONE);
+			addComp(mainPanel,adress,1,4,1,1,GridBagConstraints.SOUTH,GridBagConstraints.NONE);
 			
 			cityLabel= new JLabel("City");
-			addComp(mainPanel,cityLabel,1,6,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+			addComp(mainPanel,cityLabel,1,5,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 			cityText= new JTextField(15);
-			addComp(mainPanel,cityText,2,6,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
+			addComp(mainPanel,cityText,2,5,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
 			streetLabel= new JLabel("Street");
-			addComp(mainPanel,streetLabel,1,7,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+			addComp(mainPanel,streetLabel,1,6,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 			 streetText= new JTextField(15);
-			addComp(mainPanel,streetText,2,7,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
+			addComp(mainPanel,streetText,2,6,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
 			houseNumberLabel= new JLabel("House Number");
-			addComp(mainPanel,houseNumberLabel,1,8,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+			addComp(mainPanel,houseNumberLabel,1,7,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 			houseNumberText= new JTextField(2);
-			addComp(mainPanel,houseNumberText,2,8,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
+			addComp(mainPanel,houseNumberText,2,7,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
 			submitBtn=new JButton("Submit");
-			addComp(mainPanel,submitBtn,2,9,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+			addComp(mainPanel,submitBtn,2,8,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 			this.add(mainPanel);
 			
 			ListenForButton lForSendBtn= new ListenForButton();
@@ -132,7 +129,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 			ListenForKeys lForText=new ListenForKeys();
 			firstNameText.addKeyListener(lForText);
 			lastNameText.addKeyListener(lForText);
-			idText.addKeyListener(lForText);
+			
 			phoneText.addKeyListener(lForText);
 			emailText.addKeyListener(lForText);
 			cityText.addKeyListener(lForText);
@@ -162,7 +159,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 			
 			 firstName=firstNameText.getText();
 			 lastname=lastNameText.getText();
-			 id=idText.getText();
+			
 			 city=cityText.getText();
 			 street=streetText.getText();
 			 houseNumber=houseNumberText.getText();
@@ -183,11 +180,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==submitBtn) {
-				if(!digitOnly(id)) {
-					JOptionPane.showMessageDialog(null, "Id should contain only numbers!");
-
-				}
-				else if(!lttersOnly(firstName)) {
+				if(!lttersOnly(firstName)) {
 					JOptionPane.showMessageDialog(null, "First Name should contain only lettes!");
 
 				}
@@ -212,7 +205,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 
 				}
 				else {
-				customer=(id+"|"+firstName+"|"+lastname+"|"+city+"|"+street+"|"+houseNumber+"|"+phone+"|"+email);
+				customer=(firstName+"|"+lastname+"|"+city+"|"+street+"|"+houseNumber+"|"+phone+"|"+email);
 				toNetOutputStream.println(customer);
 				}
 			}

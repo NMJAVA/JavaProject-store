@@ -2,6 +2,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.PrintStream;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -9,22 +14,32 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class MainMenu extends JFrame{
 
-	JPanel buttons;
-	JLabel headLineLabel;
-	JButton sellBtn;
-	JButton stockBtn;
-	JButton reportsBtn;
-	JButton newCustomerBtn;
-	JButton exitBtn;
-	JPanel mainPanel;
-	JLabel userLabel;
+
+public class MainMenu extends GUIFunctinos{
+
+	private JPanel buttons;
+	private JLabel headLineLabel;
+	private JButton sellBtn;
+	private JButton stockBtn;
+	private JButton reportsBtn;
+	private JButton newCustomerBtn;
+	private JButton exitBtn;
+	private JPanel mainPanel;
+	private JLabel userLabel;
+	
+	Socket socket;
+	DataInputStream fromNetInputStram;
+	PrintStream toNetOutputStream;
+	
+	private Employee loggedInUser;
 	
 	
-	
-	public MainMenu() {
+	public MainMenu(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream,Employee user) {
 		
+		this.socket=socket;
+		this.fromNetInputStram=fromNetInputStram;
+		this.toNetOutputStream=toNetOutputStream;
 		//Setting the frame size
 		this.setSize(300,400);
 		//Setting the frame default location in the middle of the screen
@@ -62,31 +77,43 @@ public class MainMenu extends JFrame{
 		addComp(mainPanel,headLineLabel,0,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 		addComp(mainPanel,buttons,0,1,1,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 
-
+		ListenForButton lForSendBtn= new ListenForButton();
+		sellBtn.addActionListener(lForSendBtn);
+		stockBtn.addActionListener(lForSendBtn);
+		reportsBtn.addActionListener(lForSendBtn);
+		newCustomerBtn.addActionListener(lForSendBtn);
+		exitBtn.addActionListener(lForSendBtn);
+		
 		this.add(mainPanel);
 		
 		this.setVisible(true);
 	}
 
 
-	public static void main(String[] args) {
-		new MainMenu();
+private class ListenForButton implements ActionListener{
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource()==sellBtn) {
+			SalePage sale=new SalePage();
+			setVisible(false);
+			}
+		if(e.getSource()==stockBtn) {
+			StockGui stock=new StockGui();
+			setVisible(false);
+		}
+		if(e.getSource()==reportsBtn) {
+
+		}
+		if(e.getSource()==newCustomerBtn) {
+			CustomerRegisterForm customerRefForm=new CustomerRegisterForm(socket,fromNetInputStram,toNetOutputStream);
+			setVisible(false);
+		}
+		if(e.getSource()==exitBtn) {
+			System.exit(0);
+		}
+
 	}
-
-private void addComp(JPanel thePanel, JComponent comp, int xPos, int yPos, int compWidth, int compHeight, int place, int stretch){
-        
-       GridBagConstraints gridConstraints = new GridBagConstraints();       
-       gridConstraints.gridx = xPos;
-       gridConstraints.gridy = yPos;
-       gridConstraints.gridwidth = compWidth;
-       gridConstraints.gridheight = compHeight;
-       gridConstraints.weightx = 100;
-       gridConstraints.weighty = 100;
-       gridConstraints.insets = new Insets(5,5,5,5);
-       gridConstraints.anchor = place;
-       gridConstraints.fill = stretch;
-       thePanel.add(comp, gridConstraints);
-
-   }
-
+}
 }

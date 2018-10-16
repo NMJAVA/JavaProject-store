@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -21,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+
 public class StockGui extends JFrame{
 
 	private JPanel mainPanel;
@@ -34,6 +36,9 @@ public class StockGui extends JFrame{
 	private JRadioButton searchBySize;
 	private JPanel searchTypePanel;
 	private JButton backBtn;
+	private JLabel userLabel;
+	private JPanel userPanel;
+	private JLabel spaceLabel;
 	
 	public StockGui(){
 		//Setting the frame size
@@ -79,18 +84,26 @@ public class StockGui extends JFrame{
 				
 				searchByBarcode.setSelected(true);
 				
-				
+				userPanel=new JPanel();
+				userLabel=new JLabel("user");
+				spaceLabel=new JLabel("                 ");
 				searchPanel.add(searchLabel);
 				searchPanel.add(searchText);
 				searchPanel.add(searchBtn);
 				
 				backBtn=new JButton("Back");
-				
+				userPanel.add(userLabel);
+				userPanel.add(spaceLabel);
+				addComp(mainPanel,userPanel,0,0,1,1,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE);
 				addComp(mainPanel,searchPanel,0,0,1,1,GridBagConstraints.NORTH,GridBagConstraints.NONE);
 				addComp(mainPanel,backBtn,0,0,1,1,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE);
 				addComp(mainPanel,searchTypePanel,0,0,1,1,GridBagConstraints.SOUTH,GridBagConstraints.NONE);
 				addComp(mainPanel,stockTable,0,1,3,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 				stockTable.setBorder(blackBorder);
+				userPanel.setBorder(blackBorder);
+				ListenForButton lForSendBtn= new ListenForButton();
+				backBtn.addActionListener(lForSendBtn);
+				
 				this.add(mainPanel);
 				this.setVisible(true);
 	}
@@ -125,10 +138,8 @@ public class StockGui extends JFrame{
 			
 			if(e.getSource()==backBtn) {	
 				}		
-			
+					System.exit(0);
 				}
-			
-		
 				//send message from string
 		
 	}
