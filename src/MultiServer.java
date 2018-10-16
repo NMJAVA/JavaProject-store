@@ -67,7 +67,7 @@ public class MultiServer {
 						String use;
 						String line="";
 						String password="";
-						int option=0;
+						char option=0;
 						while(!line.equals("goodbye")) {
 							
 							
@@ -83,21 +83,28 @@ public class MultiServer {
 									System.out.println("Register Failed: Member Already Registered");
 								}
 							}*/
-							
+						
 							use=inputStream.readLine();
 							pass=inputStream.readLine();
 							EmployeeHelper EmployeeHelper = new EmployeeHelper();
 							Employee employee             =  EmployeeHelper.login( new Email( use ) , pass);
-							if( employee.isLoggedIn() ){
-								//System.out.println( employee.getFirstName() + "[" + employee.getId() + "] Is Logged IN AS Employee !");
-								outputStream.println("true");
-							} else{
-								outputStream.println("false");
+							if( employee != null ) {
+								if( employee.isLoggedIn() ){
+									//System.out.println( employee.getFirstName() + "[" + employee.getId() + "] Is Logged IN AS Employee !");
+									outputStream.println("true");
+								} else{
+									outputStream.println("false");
+								}	
 							}
-							
+							else{
+							outputStream.println("false");
+							}	
+							System.out.println("111");
+							/*
+							option=inputStream.readChar();
 							switch(option) {
 							   case 1:
-							      // Statements
+								   
 							      break; 
 							   case 2:
 								// Statements
@@ -106,12 +113,21 @@ public class MultiServer {
 									// Statements
 								      break;
 							   case 4:
-									// Statements
+								   line=inputStream.readLine();
+									{
+										Customer newCustomer= new Customer( stringToMember(line) );
+											
+										if( newCustomer.register("password") != null ){
+											System.out.println("Employee Successfully Registered ");
+										} else{
+											System.out.println("Register Failed: Member Already Registered");
+										}
+									}
 								      break;
 							   // You can have any number of case statements.
 							   default : // Optional
 							      // Statements
-							}
+							}*/
 							
 						}
 					}catch(IOException e) {System.err.println(e);}}

@@ -13,8 +13,11 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 public class SalePage extends GUIFunctinos{
 
@@ -25,12 +28,15 @@ public class SalePage extends GUIFunctinos{
 	private JButton discountBtn;
 	private JButton sellBtn;
 	private JTable itemTable;
+	private JPanel tablePanel;
+	private JTextField Barrcode;
 	
 	
+	Product testing=new Product("1" , "Lee Coper delux", "Jeans", "XL", 100 ,2);
 	
 	public SalePage() {
 		//Setting the frame size
-		this.setSize(500,500);
+		this.setSize(600,500);
 		//Setting the frame default location in the middle of the screen
 		this.setLocationRelativeTo(null);
 		//Disabling the option to change the size of the frame
@@ -41,18 +47,34 @@ public class SalePage extends GUIFunctinos{
 		this.setTitle("Sale");
 		
 		mainPanel=new JPanel();
-		mainPanel.setLayout(new GridBagLayout());
-		 String[] columns = {"Barrcode", "Name", "Size", "Quantity",
-                 "Price"};
+	//	mainPanel.setLayout(new GridBagLayout());
+		 String[] columns = {"Barrcode", "Name", "Size","Price","Quantity"};
 		
-		itemTable=new JTable(10,5);
+		 tablePanel=new JPanel();
+		 int numRows = 25 ;
+		 DefaultTableModel model = new DefaultTableModel(numRows, columns.length) ;
+		 model.setColumnIdentifiers(columns);
+		 itemTable = new JTable(model);
+		 JScrollPane scroll = new JScrollPane(itemTable);
 			Border blackBorder = BorderFactory.createLineBorder(Color.BLACK);
-			itemTable.setBorder(blackBorder);
-		addComp(mainPanel,itemTable,0,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
-	
+			scroll.setBorder(blackBorder);
+		tablePanel.add(scroll);
+		addComp(mainPanel,tablePanel,0,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+		
+		
+		itemTable.setValueAt(testing.getSKU(), 0, 0);
+		itemTable.setValueAt(testing.getName(), 0, 1);
+		itemTable.setValueAt(testing.getSize(), 0, 2);
+		itemTable.setValueAt(testing.getPrice(), 0, 3);
+		itemTable.setValueAt(testing.getAmount(), 0, 4);
+		
+		
 		buttons =new JPanel();
 		buttons.setLayout(new GridLayout(0,1,2,2));
 
+		JTextField Barrcode=new JTextField(10);
+		buttons.add(Barrcode);
+		
 		addBtn=new JButton("Add");
 		buttons.add(addBtn);
 	
@@ -78,6 +100,7 @@ public class SalePage extends GUIFunctinos{
 	
 	static public void main(String[] args) {
 		new SalePage();
+		
 	}
 	
 

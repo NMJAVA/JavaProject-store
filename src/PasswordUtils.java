@@ -34,14 +34,16 @@ public class PasswordUtils {
 	}
 
 	public static boolean verifyUserPassword(String providedPassword, String securedPassword, String salt){
-		boolean returnValue = false;
-
-		// Generate New secure password with the same salt
-		String newSecurePassword = generateSecurePassword(providedPassword, salt);
-
-		// Check if two passwords are equal
-		returnValue = newSecurePassword.equalsIgnoreCase(securedPassword);
-
-		return returnValue;
+		try {
+			// Generate New secure password with the same salt
+			String newSecurePassword = generateSecurePassword(providedPassword, salt);
+	
+			// Check if two passwords are equal
+			boolean returnValue = newSecurePassword.equalsIgnoreCase(securedPassword);
+			return returnValue;
+		}catch( Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 }

@@ -16,7 +16,11 @@ public class EmployeeHelper extends MemberHelper {
 
 	@Override
 	public Employee login( Email email , String password ){
-		Employee Employee = new Employee( super.login( email , password ) );
-		return Employee;
+		try {
+			Employee Employee = new Employee( super.login( email , password ) );
+			return Employee;
+		}catch(Exception e) {
+			return null;
+		}
 	}
 }
