@@ -14,6 +14,7 @@ import java.net.Socket;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,7 +26,7 @@ public class LoginForm extends GUIFunctinos{
 	private JTextField emailText;
 	private JTextField passwordText;
 	private JButton loginBtn;
-
+	private Employee user;
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
@@ -112,19 +113,23 @@ public class LoginForm extends GUIFunctinos{
 		public void actionPerformed(ActionEvent e) {
 			
 			if(e.getSource()==loginBtn) {
-		
+		/*
 					toNetOutputStream.println(emailAttempt);
 					toNetOutputStream.println(passwordAttempt);
 					
-					try {
+					try {*/
 						
-						if(fromNetInputStram.readLine().equals("true")) {
-							Toolkit.getDefaultToolkit().beep();
+						//if(fromNetInputStram.readLine().equals("true")) {
+							MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,user);
+							setVisible(false);
+					/*	}
+						else {
+							JOptionPane.showMessageDialog(null, "Wrong password or email");
 						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}
+					}*/
 				}
 				
 				}

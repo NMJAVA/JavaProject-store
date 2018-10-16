@@ -15,6 +15,7 @@ public class Client{
 		String serverIp="LocalHost";
 		String Option="";
 		boolean chatOn=true;
+		
 
 		try {
 			socket=new Socket(serverIp,7000);
@@ -25,8 +26,8 @@ public class Client{
 			System.out.println(new Date()+"-->Recived from server: "+ fromNetInputStram.readLine());
 			
 			
-			CustomerRegisterForm login =new CustomerRegisterForm(socket,fromNetInputStram,toNetOutputStream);
-			while(chatOn){
+			LoginForm EmployeeRegisterForm =new LoginForm(socket,fromNetInputStram,toNetOutputStream);
+			while(true){
 			
 					/*line = chat.getText();
 					toNetOutputStream.println(new Date()+": "+line);

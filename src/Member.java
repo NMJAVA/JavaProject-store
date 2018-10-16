@@ -38,6 +38,14 @@ public class Member {
 		setEmail( email );
 		this.isloggedin = false;
 	}
+	public Member( String firstName , String lastName, Address address, String phone, String email ){
+		setFirstName( firstName );
+		setLastName( lastName );
+		setAddress( address ); // Casting From String to Address Class
+		setPhone( phone );
+		setEmail( email );
+		this.isloggedin = false;
+	}
 
 	public Member() {
 		this.isloggedin = false;
@@ -72,9 +80,15 @@ public class Member {
 	public String getAddress() {
 		return address.getAsString();
 	}
+	public Address getObjectAddress() {
+		return address;
+	}
 
 	public void setAddress(String address) {
 		this.address = new Address( address );
+	}
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public String getPhone() {

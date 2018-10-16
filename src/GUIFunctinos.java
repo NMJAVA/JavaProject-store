@@ -31,7 +31,7 @@ public abstract class GUIFunctinos extends JFrame{
 	
 	public boolean lttersOnly(String str) {
 		for (char c : str.toCharArray()) {
-		    if (!Character.isLetter(c)) {
+		    if ((!Character.isLetter(c))&&!Character.isSpace(c)) {
 		    	System.out.print(c);
 		    	return false;
 		    }
@@ -48,4 +48,6 @@ public abstract class GUIFunctinos extends JFrame{
 		}
 		 return true;
 	}
+	
+	
 }

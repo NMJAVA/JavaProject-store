@@ -3,7 +3,7 @@ public class Employee extends Member {
 	public Employee( Member member){
 		setFirstName( member.getFirstName() );
 		setLastName( member.getLastName() );
-		setAddress( member.getAddress() ); // Casting From String to Address Class
+		setAddress( member.getObjectAddress() ); // Casting From String to Address Class
 		setPhone( member.getPhone() );
 		setEmail( member.getEmail() );
 		if( member.getId() != null ){
