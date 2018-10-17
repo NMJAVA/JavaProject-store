@@ -5,11 +5,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+
 
 public class SalePage extends GUIFunctinos{
 
@@ -29,14 +34,19 @@ public class SalePage extends GUIFunctinos{
 	private JButton sellBtn;
 	private JTable itemTable;
 	private JPanel tablePanel;
-	private JTextField Barrcode;
+	private JTextField barrcodeText;
+	
+	private JLabel barrcodeLabel;
+	private JLabel quantityLabel;
+	private JTextField quantityText;
+	
 	
 	
 	Product testing=new Product("1" , "Lee Coper delux", "Jeans", "XL", 100 ,2);
 	
 	public SalePage() {
 		//Setting the frame size
-		this.setSize(600,500);
+		this.setSize(650,500);
 		//Setting the frame default location in the middle of the screen
 		this.setLocationRelativeTo(null);
 		//Disabling the option to change the size of the frame
@@ -60,23 +70,23 @@ public class SalePage extends GUIFunctinos{
 			scroll.setBorder(blackBorder);
 		tablePanel.add(scroll);
 		addComp(mainPanel,tablePanel,0,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
-		
-		
-		itemTable.setValueAt(testing.getSKU(), 0, 0);
-		itemTable.setValueAt(testing.getName(), 0, 1);
-		itemTable.setValueAt(testing.getSize(), 0, 2);
-		itemTable.setValueAt(testing.getPrice(), 0, 3);
-		itemTable.setValueAt(testing.getAmount(), 0, 4);
-		
-		
+			
 		buttons =new JPanel();
 		buttons.setLayout(new GridLayout(0,1,2,2));
 
-		JTextField Barrcode=new JTextField(10);
-		buttons.add(Barrcode);
+		barrcodeLabel= new JLabel("Barrcode");
+		buttons.add(barrcodeLabel);		
 		
-		addBtn=new JButton("Add");
-		buttons.add(addBtn);
+		barrcodeText=new JTextField(10);
+		buttons.add(barrcodeText);
+		
+		quantityLabel=new JLabel("Quantity");
+		buttons.add(quantityLabel);
+			
+		quantityText=new JTextField(5);
+		buttons.add(quantityText);
+		ListenForKeys lForQuantity=new ListenForKeys();
+		quantityText.addKeyListener(lForQuantity);
 	
 		removeBtn=new JButton("Remove");
 		buttons.add(removeBtn);
@@ -100,8 +110,34 @@ public class SalePage extends GUIFunctinos{
 	
 	static public void main(String[] args) {
 		new SalePage();
-		
 	}
 	
+	private class ListenForKeys implements KeyListener{
+		{
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char input=e.getKeyChar();
+			if((Character.isDigit(input)))
+			{
+				e.consume();
+			}
+			
+		}
+	}
 
 }
