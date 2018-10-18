@@ -87,7 +87,10 @@ public class SalePage extends GUIFunctinos{
 		buttons.add(quantityText);
 		ListenForKeys lForQuantity=new ListenForKeys();
 		quantityText.addKeyListener(lForQuantity);
-	
+		barrcodeText.addKeyListener(lForQuantity);
+		
+		addBtn=new JButton("Add");
+		buttons.add(addBtn);
 		removeBtn=new JButton("Remove");
 		buttons.add(removeBtn);
 
@@ -132,7 +135,7 @@ public class SalePage extends GUIFunctinos{
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char input=e.getKeyChar();
-			if((Character.isDigit(input)))
+			if(!(Character.isDigit(input)))
 			{
 				e.consume();
 			}
