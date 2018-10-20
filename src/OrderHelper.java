@@ -1,5 +1,8 @@
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class OrderHelper {
@@ -207,6 +210,45 @@ public class OrderHelper {
 			System.out.println( "Customer ID: " + tmpOrder.getCustomerID() );
 			System.out.println( "Amount: " + tmpOrder.getAmount() );
 			System.out.println( "-------");
+		}
+	}
+	/**
+	 * Create Order Files from all the order in the DB
+	 @param openFile [boolean] - if true open file after create
+	 * @throws SQLException
+	 */
+	public void createWordFromAllOrders( boolean openFile ) throws SQLException, IOException {
+		ArrayList<Order> allOrders = new ArrayList<Order>();
+		allOrders = this.getAllOrders();
+		GeneralHelper gHelper         = new GeneralHelper();
+		ArrayList<ArrayList> orders   = new ArrayList<>();
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd");
+		LocalDate localDate   = LocalDate.now();
+		String dateString     = dtf.format(localDate);
+
+		MemberHelper mh   = new MemberHelper();
+
+		for( int i=0;i<allOrders.size(); i++){
+			Order tmpOrder = allOrders.get(i);
+			ArrayList<String> tmpArrayList = new ArrayList<>();
+
+			Employee employee = new Employee( mh.GetByID( tmpOrder.getEmployeeID() ) );
+			Customer customer = new Customer( mh.GetByID( tmpOrder.getCustomerID() ) );
+
+			tmpArrayList.add("Order #: " + tmpOrder.getId() );
+			tmpArrayList.add("Product Sku: " + tmpOrder.getProductSKU() );
+			tmpArrayList.add("Sale Date: " + tmpOrder.getDate() );
+			tmpArrayList.add("Employee: " + employee.getFirstName() );
+			tmpArrayList.add("Customer: " + customer.getFirstName() );
+			tmpArrayList.add("Amount: " + tmpOrder.getAmount() );
+			orders.add( tmpArrayList );
+		}
+
+		gHelper.createWordFile(orders , "orders-" + dateString + ".docx");
+
+		if (openFile){
+			gHelper.openFile("orders-" + dateString + ".docx");
 		}
 	}
 }

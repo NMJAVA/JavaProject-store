@@ -1,4 +1,10 @@
+import java.io.IOException;
 import java.lang.*;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 public class Order {
 	Integer id;
 	String product_sku;
@@ -46,4 +52,34 @@ public class Order {
 	public Integer getAmount() { return amount; }
 
 	public void setAmount(Integer amount) { this.amount = amount; }
+
+	/**
+	 * Create Word File from this order.
+	 * @param openFile [boolean] - if true open file after create
+	 * @throws SQLException
+	 */
+	public void createWord( boolean openFile ) throws SQLException, IOException {
+		GeneralHelper gHelper         = new GeneralHelper();
+		ArrayList<String> wordContent = new ArrayList<>();
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd");
+		LocalDate localDate   = LocalDate.now();
+		String dateString     = dtf.format(localDate);
+
+		MemberHelper mh   = new MemberHelper();
+		Employee employee = new Employee( mh.GetByID( getEmployeeID() ) );
+		Customer customer = new Customer( mh.GetByID( getCustomerID() ) );
+
+		wordContent.add("Product Sku: " + getProductSKU() );
+		wordContent.add("Sale Date: " + getDate() );
+		wordContent.add("Employee: " + employee.getFirstName() );
+		wordContent.add("Customer: " + customer.getFirstName() );
+		wordContent.add("Amount: " + getAmount() );
+
+		gHelper.createWordFile("Order #" + getId() , wordContent, "order" + dateString + ".docx");
+
+		if (openFile){
+			gHelper.openFile("order" + dateString + ".docx");
+		}
+	}
 }

@@ -9,7 +9,7 @@ public class DataBaseHelper {
 
 	//  Database credentials
 	static final String USER = "root";
-	static final String PASS = "lion1989";//"lion1989"; "1!qaz2@wsx";
+	static final String PASS = "lion1989";//"lion1989";
 
 	Connection conn = null;
 	Statement  stmt = null;
