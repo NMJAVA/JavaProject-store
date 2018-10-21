@@ -16,6 +16,7 @@ public class Client{
 		String Option="";
 		boolean chatOn=true;
 		
+		
 
 		try {
 			socket=new Socket(serverIp,7000);

@@ -19,7 +19,7 @@ public class Main  {
 				} else {
 					System.out.println("Register Failed: Member Already Registered");
 				}
-
+			
 				// Register Customer
 				Member memberToRegister2 = new Member("Niv", "Noiman", "Rishon Lezzion, Maccabi Zahir, 6", "0524011331", "niv2@gmail.com");
 				Member customerToRegister = new Customer(memberToRegister2);

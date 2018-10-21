@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/Users/moshe/Desktop/mysql-connector-java-8.0.12/mysql-connector-java-8.0.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/commons-compress-1.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/commons-compress-1.18-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/curvesapi-1.05.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/poi-4.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/poi-ooxml-4.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/poi-ooxml-schemas-4.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/poi-scratchpad-4.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Moshe/Desktop/apache-poi/apache-poi/xmlbeans-3.0.1.jar"/>
+	<classpathentry kind="lib" path="mysql-connector-java-8.0.12/mysql-connector-java-8.0.12.jar"/>
 	<classpathentry kind="output" path="out/production/JavaProject-store"/>
 </classpath>

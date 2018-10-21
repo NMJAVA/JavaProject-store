@@ -49,6 +49,8 @@ public class SalePage extends GUIFunctinos{
 	private JLabel quantityLabel;
 	private JTextField quantityText;
 	
+
+	
 	private String barcode;
 	private String quantity;
 	
@@ -60,7 +62,7 @@ public class SalePage extends GUIFunctinos{
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
-		
+	Employee test;
 	Vector<Product> product= new Vector<Product>();
 	
 	//Product testing=new Product("1" , "Lee Coper delux", "Jeans", "XL", 100 ,2);
@@ -138,7 +140,10 @@ public class SalePage extends GUIFunctinos{
 		ListenForButtons lForSendBtn= new ListenForButtons();
 		addBtn.addActionListener(lForSendBtn);
 		removeBtn.addActionListener(lForSendBtn);
-
+		sellBtn.addActionListener(lForSendBtn);
+		
+		EmployeeHelper EmployeeHelper = new EmployeeHelper();
+		 test = EmployeeHelper.login(new Email("niv@gmail.com"), "111111111");
 		
 		this.add(mainPanel);
 		this.setVisible(true);
@@ -158,6 +163,7 @@ public class SalePage extends GUIFunctinos{
 		public void keyReleased(KeyEvent arg0) {
 			barcode=barcodeText.getText();
 			quantity=quantityText.getText();
+			
 		}
 
 		@Override
@@ -245,6 +251,10 @@ public class SalePage extends GUIFunctinos{
 				lastRow--;
 				}
 			}
+			if(e.getSource()==sellBtn) {
+				 test.buy(product.elementAt(lastRow).getSKU(), test.getId());
+			
+			}
 		}
 	}
 
@@ -291,6 +301,7 @@ public class SalePage extends GUIFunctinos{
 		{
 			if(product.get(i).getSKU().equals(sku))
 			return i;
+
 		}
 		return -1;
 		
