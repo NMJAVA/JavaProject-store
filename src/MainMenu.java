@@ -97,7 +97,7 @@ private class ListenForButton implements ActionListener{
 		
 		if(e.getSource()==sellBtn) {
 			toNetOutputStream.println('1');
-			SalePage sale=new SalePage();
+			SalePage sale=new SalePage(socket,fromNetInputStram,toNetOutputStream);
 			setVisible(false);
 			}
 		if(e.getSource()==stockBtn) {

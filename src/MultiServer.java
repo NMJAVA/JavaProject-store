@@ -11,6 +11,10 @@ public class MultiServer {
 	
 	
 	
+	static String proudctToString(Product x) {
+	return (x.getSKU()+"|"+x.getName()+"|"+x.getType()+"|"+x.getSize()+"|"+x.getPrice());
+	
+	}
 	static Member stringToMember(String customerDetails){
 		
 		String firstName;
@@ -67,8 +71,28 @@ public class MultiServer {
 						String use;
 						String line="";
 						String password="";
+						Product newProduct;
 						char option=0;
 						while(!line.equals("goodbye")) {
+							
+							line=inputStream.readLine();
+							
+							
+							ProductHelper x=new ProductHelper();
+							
+							newProduct=x.GetBySKU(line);
+							
+							
+							if(newProduct!=null)
+							{
+								outputStream.println(proudctToString(newProduct));
+							}
+							else
+							{
+								System.out.println("11111111");
+
+								outputStream.println("false");
+							}
 							
 							
 						/*	line=inputStream.readLine();
@@ -83,7 +107,7 @@ public class MultiServer {
 									System.out.println("Register Failed: Member Already Registered");
 								}
 							}*/
-						
+						/*
 							use=inputStream.readLine();
 							pass=inputStream.readLine();
 							EmployeeHelper EmployeeHelper = new EmployeeHelper();
@@ -99,7 +123,7 @@ public class MultiServer {
 							else{
 							outputStream.println("false");
 							}	
-							System.out.println("111");
+							System.out.println("111");*/
 							/*
 							option=inputStream.readChar();
 							switch(option) {

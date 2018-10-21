@@ -27,6 +27,7 @@ public class LoginForm extends GUIFunctinos{
 	private JTextField passwordText;
 	private JButton loginBtn;
 	private Employee user;
+	
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
