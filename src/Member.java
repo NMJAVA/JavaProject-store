@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -124,24 +125,48 @@ public class Member {
 		return newMember;
 	}
 
-	public Order buy( String productSKU, Integer employeeID ){
+	public Order buy( String productSKU, Integer memberID ) throws SQLException {
 		ProductHelper ProductHelper = new ProductHelper();
 		OrderHelper OrderHelper     = new OrderHelper();
 		Product product             = ProductHelper.GetBySKU( productSKU );
 		java.sql.Date sqlDate       = new java.sql.Date(new java.util.Date().getTime());
-		Order order                 = new Order( productSKU , sqlDate.toString(), employeeID, this.getId(), product.getAmount() );
+		Order order                 = new Order( productSKU , sqlDate.toString(), memberID, this.getId(), product.getAmount() );
 		OrderHelper.insert( order );
+		// if member buy more X products change status to VIP
+		if( product.getAmount() > 3 ){
+			changeStatus(1);
+		}
 		return order;
 	}
 
-	public Order buy( String productSKU , Integer employeeID , Double discountRate ){
+	public Order buy( String productSKU , Integer memberID , Double discountRate ) throws SQLException {
 		ProductHelper ProductHelper = new ProductHelper();
 		OrderHelper OrderHelper     = new OrderHelper();
 		Product product             = ProductHelper.GetBySKU( productSKU );
 		java.sql.Date sqlDate       = new java.sql.Date(new java.util.Date().getTime());
-		Order order                 = new Order( productSKU , sqlDate.toString(), employeeID, this.getId(), (int)(product.getAmount()*discountRate));
+		Order order                 = new Order( productSKU , sqlDate.toString(), memberID, this.getId(), (int)(product.getAmount()*discountRate));
 		OrderHelper.insert( order );
+		// if member buy more X products change status to VIP
+		if( product.getAmount() > 3 ){
+			changeStatus(1);
+		}
 		return order;
+	}
+
+	// Check if Employee OR Customer Type
+	public String checkType() throws SQLException {
+		MemberHelper MemberHelper = new MemberHelper();
+		return MemberHelper.checkType( this );
+	}
+	// Check if Member Status
+	public Integer checkStatus() throws SQLException {
+		MemberHelper MemberHelper = new MemberHelper();
+		return MemberHelper.checkStatus( this );
+	}
+	// Change Member Status ( 1 - VIP | 0 - Regular )
+	public void changeStatus( Integer status ) throws SQLException {
+		MemberHelper MemberHelper = new MemberHelper();
+		MemberHelper.changeStatus( this , status );
 	}
 
 }

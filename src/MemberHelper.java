@@ -160,10 +160,63 @@ public class MemberHelper {
 		db.update( "members" , "address" , member.getAddress() , member.getId() );
 		db.update( "members" , "phone" , member.getPhone() , member.getId() );
 	};
-	public void ImportWordFile(){
+	/**
+	 * Update Member Status in the DataBase
+	 * @param member [Member]
+	 * @param status [Integer] - the status of the member ( 1-VIP | 0-Regular )
+	 * @throws SQLException
+	 */
+	public void changeStatus( Member member , Integer status ) throws SQLException{
+		DataBaseHelper db  = new DataBaseHelper();
+		switch ( member.checkType() ){
+			case "customer":
+				db.update("UPDATE customers SET type = " + status + " WHERE member_id = " + member.getId() );
+				break;
+			case "employee":
+				db.update("UPDATE employees SET type = " + status + " WHERE member_id = " + member.getId() );
+				break;
+		}
+	};
+	/**
+	 * Check Member Type From the DataBase
+	 * @param member [Member]
+	 * @return member type [String]
+	 * @throws SQLException
+	 */
+	public String checkType( Member member ) throws SQLException{
+		DataBaseHelper db  = new DataBaseHelper();
+		String memberType = new String("employee");
+		try{
+			ResultSet rs   = db.getResult( "SELECT * FROM customers WHERE member_id =" + member.getId() );
+			if( rs.next() ){
+				memberType = "customer";
+			}
+		}catch ( Exception e ){
+			e.printStackTrace();
+		}
+		return memberType;
 
 	};
+	/**
+	 * Check Member Status From the DataBase
+	 * @param member [Member]
+	 * @return status [Integer]
+	 * @throws SQLException
+	 */
+	public Integer checkStatus( Member member ) throws SQLException{
+		DataBaseHelper db  = new DataBaseHelper();
+		String table = new String(  member.checkType() + "s");
+		try{
+			ResultSet rs   = db.getResult( "SELECT * FROM " + table + " WHERE member_id =" + member.getId() );
+			if( rs.next() ){
+				return rs.getInt("type");
+			}
+		}catch ( Exception e ){
+			e.printStackTrace();
+		}
+		return 0;
 
+	};
 	/**
 	 * Get ArrayList of all the Members in the database
 	 * @return ArrayList

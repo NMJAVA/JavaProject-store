@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.Vector;
 
@@ -252,8 +253,12 @@ public class SalePage extends GUIFunctinos{
 				}
 			}
 			if(e.getSource()==sellBtn) {
-				 test.buy(product.elementAt(lastRow).getSKU(), test.getId());
-			
+				try {
+					test.buy(product.elementAt(lastRow).getSKU(), test.getId());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 			}
 		}
 	}

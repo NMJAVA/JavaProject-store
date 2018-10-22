@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 
 public class Employee extends Member {
 	public Employee( Member member){
@@ -20,9 +21,14 @@ public class Employee extends Member {
 		return newMember;
 	}
 
-	public Order sell( Product product , Integer customer_id ){
+	public Order sell( Product product , Integer customer_id ) throws SQLException {
 		MemberHelper MemberHelper = new MemberHelper();
 		Member customer           = new Customer( MemberHelper.GetByID( customer_id ) );
 		return customer.buy( product.getSKU() , this.getId() );
+	}
+
+	@Override
+	public String checkType() throws SQLException {
+		return new String("employee");
 	}
 }

@@ -18,6 +18,10 @@ public class CustomerHelper extends MemberHelper {
 	public Customer login( Email email , String password ){
 		try {
 			Customer Customer = new Customer( super.login( email , password ) );
+			if( Customer.checkStatus() == 1 ){
+				Customer VIPCustomer = new VIPCustomer( super.login( email , password ) );
+				return VIPCustomer;
+			}
 			return Customer;
 		}catch(Exception e) {
 			return null;
