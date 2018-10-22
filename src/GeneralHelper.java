@@ -32,6 +32,7 @@ public class GeneralHelper {
 		}catch ( Exception e ){
 			e.printStackTrace();
 		}
+		
 	}
 	public void createWordFile( ArrayList<ArrayList> arrayList , String fileName ){
 		XWPFDocument document   = new XWPFDocument();
@@ -78,4 +79,5 @@ public class GeneralHelper {
 		if(file.exists()) desktop.open(file);
 
 	}
+	
 }

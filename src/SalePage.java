@@ -15,7 +15,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.Vector;
 
@@ -48,13 +47,16 @@ public class SalePage extends GUIFunctinos{
 	private JTextField barcodeText;
 	private JLabel barcodeLabel;
 	private JLabel quantityLabel;
+	private JLabel customerLabel;
+	private JTextField customerText;
 	private JTextField quantityText;
 	
 
 	
 	private String barcode;
 	private String quantity;
-	
+	Employee employee;
+	private String customerEmail;
 	private int lastRow=-1;
 	private int selectedRow=-1;
 	private String tempProductString; 
@@ -63,7 +65,7 @@ public class SalePage extends GUIFunctinos{
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
-	Employee test;
+	
 	Vector<Product> product= new Vector<Product>();
 	
 	//Product testing=new Product("1" , "Lee Coper delux", "Jeans", "XL", 100 ,2);
@@ -75,7 +77,7 @@ public class SalePage extends GUIFunctinos{
 		this.toNetOutputStream=toNetOutputStream;
 		
 		//Setting the frame size
-		this.setSize(650,500);
+		this.setSize(700,500);
 		//Setting the frame default location in the middle of the screen
 		this.setLocationRelativeTo(null);
 		//Disabling the option to change the size of the frame
@@ -123,6 +125,12 @@ public class SalePage extends GUIFunctinos{
 		quantityText.addKeyListener(lForQuantity);
 		barcodeText.addKeyListener(lForQuantity);
 		
+		 customerLabel=new JLabel("Customer email");
+		 buttons.add(customerLabel);
+		 
+		  customerText=new JTextField(15);
+		  buttons.add(customerText);
+		
 		addBtn=new JButton("Add");
 		buttons.add(addBtn);
 		removeBtn=new JButton("Remove");
@@ -144,7 +152,7 @@ public class SalePage extends GUIFunctinos{
 		sellBtn.addActionListener(lForSendBtn);
 		
 		EmployeeHelper EmployeeHelper = new EmployeeHelper();
-		 test = EmployeeHelper.login(new Email("niv@gmail.com"), "111111111");
+		employee = EmployeeHelper.login(new Email("niv@gmail.com"), "111111111");
 		
 		this.add(mainPanel);
 		this.setVisible(true);
@@ -164,7 +172,7 @@ public class SalePage extends GUIFunctinos{
 		public void keyReleased(KeyEvent arg0) {
 			barcode=barcodeText.getText();
 			quantity=quantityText.getText();
-			
+			customerEmail=customerText.getText();
 		}
 
 		@Override
@@ -184,6 +192,13 @@ public class SalePage extends GUIFunctinos{
 		public void actionPerformed(ActionEvent e) {
 		
 			if(e.getSource()==addBtn) {
+				toNetOutputStream.println("add");
+				try {
+					String apply=fromNetInputStram.readLine();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				int index=serchBySku(product,barcode);
 				if(!barcode.equals("")) {
 					if(quantity.equals("")) {
@@ -253,12 +268,27 @@ public class SalePage extends GUIFunctinos{
 				}
 			}
 			if(e.getSource()==sellBtn) {
+				toNetOutputStream.println("sell");
 				try {
-					test.buy(product.elementAt(lastRow).getSKU(), test.getId());
-				} catch (SQLException e1) {
+					String apply=fromNetInputStram.readLine();
+					toNetOutputStream.println(employee.getFirstName()+"|"+employee.getLastName()+"|"+employee.getAddress()+"|"+employee.getPhone()+"|"+employee.getEmail());
+				toNetOutputStream.println(customerEmail);
+				apply=fromNetInputStram.readLine();
+				if(apply=="true") {
+				for(int i=0;i<=product.size();i++) {
+					toNetOutputStream.println(product.elementAt(i).getSKU());
+					toNetOutputStream.println(product.elementAt(i).getAmount());
+				}
+				toNetOutputStream.println("end");
+				}
+				else if(apply=="false") {
+					JOptionPane.showMessageDialog(null, "Invalid Client");
+				
+				}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
 			}
 		}
 	}

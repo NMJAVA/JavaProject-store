@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.Date;
 import java.lang.*;
 
@@ -72,27 +73,60 @@ public class MultiServer {
 						String line="";
 						String password="";
 						Product newProduct;
-						char option=0;
+						String option="";
+						ProductHelper productHelper=new ProductHelper();
 						while(!line.equals("goodbye")) {
 							
-							line=inputStream.readLine();
-							
-							
-							ProductHelper x=new ProductHelper();
-							
-							newProduct=x.GetBySKU(line);
-							
-							
-							if(newProduct!=null)
-							{
-								outputStream.println(proudctToString(newProduct));
-							}
-							else
-							{
-								System.out.println("11111111");
+							option=inputStream.readLine();
+							switch(option) {
+							   case "add":
+									outputStream.println("approved");
+									line=inputStream.readLine();
+									
+						
+									
+									
+									newProduct=productHelper.GetBySKU(line);
+									
+									
+									if(newProduct!=null)
+									{
+										outputStream.println(proudctToString(newProduct));
+									}
+									else
+									{
+										System.out.println("11111111");
 
-								outputStream.println("false");
-							}
+										outputStream.println("false");
+									}
+							      break; 
+							   case "Sell":
+								   outputStream.println("approved");
+								   line=inputStream.readLine();
+								   Employee employee=new Employee(stringToMember(line));   
+								   line=inputStream.readLine();
+								   Email email=new Email(line);
+								   CustomerHelper customerHelper=new CustomerHelper();
+								   Customer customer = customerHelper.login(email, "111111111");
+									if (customer.isLoggedIn()) {
+										outputStream.println("true");
+										while(!((line=inputStream.readLine()).equals("end")))
+										{
+											line=inputStream.readLine();
+											newProduct=productHelper.GetBySKU(line);
+											line=inputStream.readLine();
+											int amount=Integer.parseInt(line);
+											newProduct.setAmount(amount);
+											employee.sell(newProduct, customer.getId());
+											
+										}
+									} else {
+										outputStream.println("false");
+									}
+								}
+							
+							
+						
 							
 							
 						/*	line=inputStream.readLine();
@@ -154,7 +188,10 @@ public class MultiServer {
 							}*/
 							
 						}
-					}catch(IOException e) {System.err.println(e);}}
+					}catch(IOException e) {System.err.println(e);} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}}
 				}).start();
 				}
 				}		

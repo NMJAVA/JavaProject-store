@@ -47,19 +47,6 @@ public class Main  {
 					System.out.println("Login Failed: Email Or Password Is Incorrect ");
 				}
 
-				//Customer Login And Change Status To VIP ( 1 )
-				MemberHelper MemberHelper = new MemberHelper();
-				Member demoMember         = MemberHelper.login(new Email("niv2@gmail.com"), "111111111");
-				if (demoMember.isLoggedIn()) {
-					System.out.println(demoMember.checkType());
-					// Change Status to VIP
-					//demoMember.changeStatus(1);
-					// Check Member Status - VIP OR Regular ( 1-VIP | 0-Regular)
-					System.out.println(demoMember.checkStatus());
-				} else {
-					System.out.println("Login Failed: Email Or Password Is Incorrect ");
-				}
-
 				/* Product */
 				/////////////
 				// Create New Product
@@ -106,8 +93,8 @@ public class Main  {
 //			gHelper.openFile("demoWordFile.docx");
 
 			// Create Word File From All Orders
-			//OrderHelper OrderHelper = new OrderHelper();
-			//OrderHelper.createWordFromAllOrders(true);
+			OrderHelper OrderHelper = new OrderHelper();
+			OrderHelper.createWordFromAllOrders(true);
 
 
 		} catch(Exception e){
