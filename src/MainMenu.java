@@ -21,7 +21,7 @@ public class MainMenu extends GUIFunctinos{
 	private JPanel buttons;
 	private JLabel headLineLabel;
 	private JButton sellBtn;
-	private JButton stockBtn;
+	
 	private JButton reportsBtn;
 	private JButton newCustomerBtn;
 	private JButton exitBtn;
@@ -61,14 +61,14 @@ public class MainMenu extends GUIFunctinos{
 		buttons.setBounds(0, 0, 2, 2);
 		headLineLabel=new JLabel("M&N Fashion");
 		sellBtn=new JButton("Sell");		
-		stockBtn=new JButton("Stock");
+		reportsBtn=new JButton("Stock");
 		reportsBtn=new JButton("Reports");
 		newCustomerBtn=new JButton("New Customer");
 		exitBtn=new JButton("Exit");
 		
 		//mainPanel.add(headLineLabel);
 		buttons.add(sellBtn);
-		buttons.add(stockBtn);
+		buttons.add(reportsBtn);
 		buttons.add(reportsBtn);
 		buttons.add(newCustomerBtn);
 		buttons.add(exitBtn);
@@ -79,7 +79,7 @@ public class MainMenu extends GUIFunctinos{
 
 		ListenForButton lForSendBtn= new ListenForButton();
 		sellBtn.addActionListener(lForSendBtn);
-		stockBtn.addActionListener(lForSendBtn);
+		reportsBtn.addActionListener(lForSendBtn);
 		reportsBtn.addActionListener(lForSendBtn);
 		newCustomerBtn.addActionListener(lForSendBtn);
 		exitBtn.addActionListener(lForSendBtn);
@@ -100,16 +100,14 @@ private class ListenForButton implements ActionListener{
 			SalePage sale=new SalePage(socket,fromNetInputStram,toNetOutputStream);
 			setVisible(false);
 			}
-		if(e.getSource()==stockBtn) {
+		if(e.getSource()==reportsBtn) {
 			toNetOutputStream.println('2');
-			StockGui stock=new StockGui();
+			Reports reports=new Reports();
 			setVisible(false);
 		}
-		if(e.getSource()==reportsBtn) {
-			toNetOutputStream.println('3');
-		}
+	
 		if(e.getSource()==newCustomerBtn) {
-			toNetOutputStream.println('4');
+			toNetOutputStream.println('3');
 			CustomerRegisterForm CustomerRegisterForm=new CustomerRegisterForm(socket,fromNetInputStram,toNetOutputStream);
 			setVisible(false);
 		}

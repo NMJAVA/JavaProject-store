@@ -24,6 +24,10 @@ public class Customer extends Member {
 	public Order buy( String productSKU , Integer employeeID) throws SQLException {
 		return super.buy( productSKU, employeeID );
 	}
+	@Override
+	public Order buy( Product product , Integer employeeID) throws SQLException {
+		return super.buy( product, employeeID );
+	}
 
 	@Override
 	public String checkType() throws SQLException {

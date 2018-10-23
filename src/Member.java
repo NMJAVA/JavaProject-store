@@ -153,6 +153,32 @@ public class Member {
 		return order;
 	}
 
+	public Order buy( Product product, Integer memberID ) throws SQLException {
+		ProductHelper ProductHelper = new ProductHelper();
+		OrderHelper OrderHelper     = new OrderHelper();
+		java.sql.Date sqlDate       = new java.sql.Date(new java.util.Date().getTime());
+		Order order                 = new Order( product.getSKU() , sqlDate.toString(), memberID, this.getId(), product.getAmount() );
+		OrderHelper.insert( order );
+		// if member buy more X products change status to VIP
+		if( product.getAmount() > 3 ){
+			changeStatus(1);
+		}
+		return order;
+	}
+
+	public Order buy( Product product , Integer memberID , Double discountRate ) throws SQLException {
+		ProductHelper ProductHelper = new ProductHelper();
+		OrderHelper OrderHelper     = new OrderHelper();
+		java.sql.Date sqlDate       = new java.sql.Date(new java.util.Date().getTime());
+		Order order                 = new Order( product.getSKU() , sqlDate.toString(), memberID, this.getId(), (int)(product.getAmount()*discountRate));
+		OrderHelper.insert( order );
+		// if member buy more X products change status to VIP
+		if( product.getAmount() > 3 ){
+			changeStatus(1);
+		}
+		return order;
+	}
+	
 	// Check if Employee OR Customer Type
 	public String checkType() throws SQLException {
 		MemberHelper MemberHelper = new MemberHelper();

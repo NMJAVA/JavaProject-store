@@ -56,7 +56,7 @@ public class SalePage extends GUIFunctinos{
 	private String barcode;
 	private String quantity;
 	Employee employee;
-	private String customerEmail;
+	private String customerEmail="";
 	private int lastRow=-1;
 	private int selectedRow=-1;
 	private String tempProductString; 
@@ -68,7 +68,6 @@ public class SalePage extends GUIFunctinos{
 	
 	Vector<Product> product= new Vector<Product>();
 	
-	//Product testing=new Product("1" , "Lee Coper delux", "Jeans", "XL", 100 ,2);
 	
 	public SalePage(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream) {
 		
@@ -124,13 +123,13 @@ public class SalePage extends GUIFunctinos{
 		ListenForKeys lForQuantity=new ListenForKeys();
 		quantityText.addKeyListener(lForQuantity);
 		barcodeText.addKeyListener(lForQuantity);
-		
+	
 		 customerLabel=new JLabel("Customer email");
 		 buttons.add(customerLabel);
 		 
 		  customerText=new JTextField(15);
 		  buttons.add(customerText);
-		
+			customerText.addKeyListener(lForQuantity);
 		addBtn=new JButton("Add");
 		buttons.add(addBtn);
 		removeBtn=new JButton("Remove");
@@ -178,11 +177,13 @@ public class SalePage extends GUIFunctinos{
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char input=e.getKeyChar();
+			if(e.getComponent()==quantityText||e.getComponent()==barcodeText)
+			{
 			if(!(Character.isDigit(input)))
 			{
 				e.consume();
 			}
-			
+			}
 		}
 	}
 	
@@ -208,8 +209,7 @@ public class SalePage extends GUIFunctinos{
 						amount=Integer.parseInt(quantity);
 					}
 					if(index!=-1) {
-						if(index!=-1)
-						{
+					
 							int extraAmount=(int) model.getValueAt(index, 4)+amount;
 							product.elementAt(index).setAmount(extraAmount);
 							itemTable.setValueAt(extraAmount, index, 4);
@@ -217,7 +217,7 @@ public class SalePage extends GUIFunctinos{
 							barcode="";
 							quantityText.setText("");
 							quantity="";
-						}
+					
 				}
 					else {
 				System.out.println(barcode);
@@ -263,19 +263,30 @@ public class SalePage extends GUIFunctinos{
 				if(lastRow>-1)
 				{
 				model.removeRow(selectedRow);
+				 product.remove(selectedRow);
 				selectedRow=-1;
 				lastRow--;
 				}
 			}
 			if(e.getSource()==sellBtn) {
+				if(customerEmail.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Customer Email is empty");
+				}
+				else {
 				toNetOutputStream.println("sell");
 				try {
 					String apply=fromNetInputStram.readLine();
-					toNetOutputStream.println(employee.getFirstName()+"|"+employee.getLastName()+"|"+employee.getAddress()+"|"+employee.getPhone()+"|"+employee.getEmail());
-				toNetOutputStream.println(customerEmail);
+					Address tempAdress=employee.getObjectAddress();
+					String temp=employee.getFirstName()+"|"+employee.getLastName()+"|"+tempAdress.getCity()+"|"+tempAdress.getStreet()+"|"+tempAdress.getHouseNumber()+"|"+employee.getPhone()+"|"+employee.getEmail();
+					toNetOutputStream.println(temp);
+					   System.out.println(product.size());
+					   
+					toNetOutputStream.println(customerEmail);
 				apply=fromNetInputStram.readLine();
-				if(apply=="true") {
-				for(int i=0;i<=product.size();i++) {
+				System.out.println(apply);
+				if(apply.equals("true")) {
+				for(int i=0;i<product.size();i++) {
+					
 					toNetOutputStream.println(product.elementAt(i).getSKU());
 					toNetOutputStream.println(product.elementAt(i).getAmount());
 				}
@@ -288,7 +299,7 @@ public class SalePage extends GUIFunctinos{
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				}}
 			}
 		}
 	}

@@ -24,7 +24,9 @@ public class Employee extends Member {
 	public Order sell( Product product , Integer customer_id ) throws SQLException {
 		MemberHelper MemberHelper = new MemberHelper();
 		Member customer           = new Customer( MemberHelper.GetByID( customer_id ) );
-		return customer.buy( product.getSKU() , this.getId() );
+		System.out.println(product.getAmount());
+		
+		return customer.buy( product , this.getId() );
 	}
 
 	@Override

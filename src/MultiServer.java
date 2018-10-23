@@ -42,8 +42,8 @@ public class MultiServer {
 		 
 		 
 		 phone=customerDetails.substring(0, customerDetails.indexOf('|'));;
-		 
 		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
 		 email=customerDetails;
 		
 
@@ -95,32 +95,43 @@ public class MultiServer {
 									}
 									else
 									{
-										System.out.println("11111111");
-
 										outputStream.println("false");
 									}
 							      break; 
-							   case "Sell":
-								   outputStream.println("approved");
+							   case "sell":
+								  
+								   outputStream.println("approved");		   
 								   line=inputStream.readLine();
-								   Employee employee=new Employee(stringToMember(line));   
+								   EmployeeHelper employeeHelper=new EmployeeHelper();
+								   Employee employee = employeeHelper.login(new Email("niv@gmail.com"), "111111111");
 								   line=inputStream.readLine();
 								   Email email=new Email(line);
+								   if(email.isValid(email.toString())) {
+								   }
+								   System.out.println(email.toString());
 								   CustomerHelper customerHelper=new CustomerHelper();
+								 
 								   Customer customer = customerHelper.login(email, "111111111");
+								   System.out.println(customer.getLastName());
+					
 									if (customer.isLoggedIn()) {
+									
 										outputStream.println("true");
-										while(!((line=inputStream.readLine()).equals("end")))
+										line=inputStream.readLine();
+										while(!(line.equals("end")))
 										{
-											line=inputStream.readLine();
+											
 											newProduct=productHelper.GetBySKU(line);
 											line=inputStream.readLine();
 											int amount=Integer.parseInt(line);
 											newProduct.setAmount(amount);
 											employee.sell(newProduct, customer.getId());
+											line=inputStream.readLine();
+											System.out.println(line);
 											
 										}
 									} else {
+										System.out.println("false");
 										outputStream.println("false");
 									}
 								}

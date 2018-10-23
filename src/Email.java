@@ -22,6 +22,7 @@ public class Email {
 				}
 			return false;
 	}
+	
 	public String toString(){
 		return email;
 	}

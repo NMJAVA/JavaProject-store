@@ -40,7 +40,7 @@ public class OrderHelper {
 			DataBaseHelper db = new DataBaseHelper();
 			boolean returnInt = true;
 			Integer oldAmount = db.get( "inventory" , "amount" , "product_sku = " + productSKU , returnInt );
-			Integer newAmount = amount - oldAmount;
+			Integer newAmount = oldAmount - amount ;
 			if( newAmount < 0 ){
 				newAmount = 0;
 			}

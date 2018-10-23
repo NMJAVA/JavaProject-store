@@ -10,4 +10,9 @@ public class VIPCustomer extends Customer {
 		double discountRate = 0.9;
 		return super.buy( productSKU, employeeID , discountRate );
 	}
+	@Override
+	public Order buy( Product product , Integer employeeID ) throws SQLException {
+		double discountRate = 0.9;
+		return super.buy( product.getSKU(), employeeID , discountRate );
+	}
 }
