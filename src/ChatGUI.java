@@ -34,6 +34,7 @@ public class ChatGUI extends GUIFunctinos{
 	private JTextArea textBox;
 	private JButton sendBtn;
 	private JButton test;
+	private Employee employee;
 	private String text=null;
 	boolean messageReady=false;
 	
@@ -41,7 +42,7 @@ public class ChatGUI extends GUIFunctinos{
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
 	
-	public ChatGUI(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream){
+	public ChatGUI(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream,Employee loggedInUser){
 		
 		
 		
@@ -65,7 +66,7 @@ public class ChatGUI extends GUIFunctinos{
 		mainPanel=new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
 		mainPanel.setBorder(new EmptyBorder(10,10,10,10));
-		
+		employee=loggedInUser;
 		chatBox=new JTextArea(20,32);
 		chatBox.setEditable(false);
 		chatBox.setLineWrap(true);

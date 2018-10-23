@@ -55,7 +55,7 @@ public class SalePage extends GUIFunctinos{
 	
 	private String barcode="";
 	private String quantity;
-	Employee employee;
+	private Employee employee;
 	private String customerEmail="";
 	private int lastRow=-1;
 	private int selectedRow=-1;

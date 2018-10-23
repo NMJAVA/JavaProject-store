@@ -27,7 +27,7 @@ public class MainMenu extends GUIFunctinos{
 	private JButton exitBtn;
 	private JPanel mainPanel;
 	private JLabel userLabel;
-	
+	private JButton chatBtn;
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
@@ -65,14 +65,16 @@ public class MainMenu extends GUIFunctinos{
 		reportsBtn=new JButton("Reports");
 		newCustomerBtn=new JButton("New Customer");
 		exitBtn=new JButton("Exit");
-		
+		chatBtn=new JButton("Chat");
 		//mainPanel.add(headLineLabel);
 		buttons.add(sellBtn);
 		buttons.add(reportsBtn);
 		buttons.add(reportsBtn);
+		buttons.add(chatBtn);
 		buttons.add(newCustomerBtn);
+		buttons.add(chatBtn);
 		buttons.add(exitBtn);
-		
+	
 		addComp(mainPanel,userLabel,0,0,1,1,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE);
 		addComp(mainPanel,headLineLabel,0,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 		addComp(mainPanel,buttons,0,1,1,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
@@ -83,7 +85,7 @@ public class MainMenu extends GUIFunctinos{
 		reportsBtn.addActionListener(lForSendBtn);
 		newCustomerBtn.addActionListener(lForSendBtn);
 		exitBtn.addActionListener(lForSendBtn);
-		
+		chatBtn.addActionListener(lForSendBtn);
 		this.add(mainPanel);
 		
 		this.setVisible(true);
@@ -109,6 +111,11 @@ private class ListenForButton implements ActionListener{
 		if(e.getSource()==newCustomerBtn) {
 			toNetOutputStream.println("newCustomer");
 			CustomerRegisterForm CustomerRegisterForm=new CustomerRegisterForm(socket,fromNetInputStram,toNetOutputStream);
+			setVisible(false);
+		}
+		if(e.getSource()==chatBtn) {
+			toNetOutputStream.println("Chat");
+			ChatGUI chat=new ChatGUI(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
 			setVisible(false);
 		}
 		if(e.getSource()==exitBtn) {
