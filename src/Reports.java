@@ -53,7 +53,7 @@ public class Reports extends GUIFunctinos{
 	private JPanel userPanel;
 	private JLabel spaceLabel;
 	ArrayList<Order> searchResult;
-	private OrderHelper orderHelper;
+	 OrderHelper orderHelper;
 	public Reports(){
 		//Setting the frame size
 				this.setSize(550,650);
@@ -73,7 +73,7 @@ public class Reports extends GUIFunctinos{
 			
 				
 				
-				 String[] columns = {"barcode", "Name", "Size","Price","Quantity","Seller","Buyer"};
+				 String[] columns = {"barcode", "Date","Employee ID","CustomerID","Amount"};
 				 tablePanel=new JPanel();
 					// int numRows = 0;
 					 model = new DefaultTableModel()  {
@@ -91,8 +91,7 @@ public class Reports extends GUIFunctinos{
 						scroll.setBorder(blackBorder);
 						
 						tablePanel.add(scroll);
-					
-//////////////////////////////
+
 				 
 				 
 				searchPanel=new JPanel();
@@ -137,10 +136,13 @@ public class Reports extends GUIFunctinos{
 				searchText.addKeyListener(lForSearch);
 				userPanel.setBorder(blackBorder);
 				ListenForButton lForSendBtn= new ListenForButton();
+				searchBtn.addActionListener(lForSendBtn);
 				
 				this.add(mainPanel);
 				this.setVisible(true);
 	}
+	
+
 	
 	public static void main(String[] args) {
 		new Reports();
@@ -183,7 +185,8 @@ public class Reports extends GUIFunctinos{
 								
 							}
 							else if(searchBySeller.isSelected()) {
-								searchResult=orderHelper.getAllByEmployeeEmail("luke@gmail.com");
+								System.out.println("111");
+								orderHelper.getAllByEmployeeEmail("luke@gmail.com");
 							}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -191,7 +194,12 @@ public class Reports extends GUIFunctinos{
 				}
 				for(int i=0;i<searchResult.size();i++ )
 				{
-					
+					Object[] row=new Object[5];
+					row[0] = searchResult.get(i).getId();
+	                row[1] =searchResult.get(i).getDate();
+	                row[2] = searchResult.get(i).getEmployeeID();
+	                row[3] =searchResult.get(i).getCustomerID();
+	                row[4] =searchResult.get(i).getAmount();
 				}
 			}
 		}

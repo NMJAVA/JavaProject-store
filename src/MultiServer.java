@@ -77,7 +77,47 @@ public class MultiServer {
 						ProductHelper productHelper=new ProductHelper();
 						while(!line.equals("goodbye")) {
 							
+							
+							
+							
+						
+							
+						/*
+						line=inputStream.readLine();
+							password=inputStream.readLine();
+							System.out.println(password);
+							{
+								Employee newEmployee= new Employee( stringToMember(line) );
+									
+								if( newEmployee.register("password") != null ){
+									System.out.println("Employee Successfully Registered ");
+								} else{
+									System.out.println("Register Failed: Member Already Registered");
+								}
+							}
+							*/
+						
+							use=inputStream.readLine();
+							pass=inputStream.readLine();
+							EmployeeHelper EmployeeHelper = new EmployeeHelper();
+							Employee employee             =  EmployeeHelper.login( new Email( use ) , pass);
+							if( employee != null ) {
+								if( employee.isLoggedIn() ){
+									//System.out.println( employee.getFirstName() + "[" + employee.getId() + "] Is Logged IN AS Employee !");
+									outputStream.println("true");
+								} else{
+									outputStream.println("false");
+								}	
+							}
+							else{
+							outputStream.println("false");
+							}	
+							System.out.println("111");
+							
 							option=inputStream.readLine();
+							switch(option) {
+							   case "sell":
+								   option=inputStream.readLine();
 							switch(option) {
 							   case "add":
 									outputStream.println("approved");
@@ -102,8 +142,6 @@ public class MultiServer {
 								  
 								   outputStream.println("approved");		   
 								   line=inputStream.readLine();
-								   EmployeeHelper employeeHelper=new EmployeeHelper();
-								   Employee employee = employeeHelper.login(new Email("niv@gmail.com"), "111111111");
 								   line=inputStream.readLine();
 								   Email email=new Email(line);
 								   if(email.isValid(email.toString())) {
@@ -135,53 +173,11 @@ public class MultiServer {
 										outputStream.println("false");
 									}
 								}
-							
-							
-						
-							
-							
-						/*	line=inputStream.readLine();
-							password=inputStream.readLine();
-							System.out.println(password);
-							{
-								Employee newEmployee= new Employee( stringToMember(line) );
-									
-								if( newEmployee.register("password") != null ){
-									System.out.println("Employee Successfully Registered ");
-								} else{
-									System.out.println("Register Failed: Member Already Registered");
-								}
-							}*/
-						/*
-							use=inputStream.readLine();
-							pass=inputStream.readLine();
-							EmployeeHelper EmployeeHelper = new EmployeeHelper();
-							Employee employee             =  EmployeeHelper.login( new Email( use ) , pass);
-							if( employee != null ) {
-								if( employee.isLoggedIn() ){
-									//System.out.println( employee.getFirstName() + "[" + employee.getId() + "] Is Logged IN AS Employee !");
-									outputStream.println("true");
-								} else{
-									outputStream.println("false");
-								}	
-							}
-							else{
-							outputStream.println("false");
-							}	
-							System.out.println("111");*/
-							/*
-							option=inputStream.readChar();
-							switch(option) {
-							   case 1:
-								   
 							      break; 
-							   case 2:
+							   case "reports":
 								// Statements
 							      break;
-							   case 3:
-									// Statements
-								      break;
-							   case 4:
+							   case "newCustomer":
 								   line=inputStream.readLine();
 									{
 										Customer newCustomer= new Customer( stringToMember(line) );
@@ -196,7 +192,7 @@ public class MultiServer {
 							   // You can have any number of case statements.
 							   default : // Optional
 							      // Statements
-							}*/
+							}
 							
 						}
 					}catch(IOException e) {System.err.println(e);} catch (SQLException e) {

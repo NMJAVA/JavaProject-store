@@ -53,7 +53,7 @@ public class SalePage extends GUIFunctinos{
 	
 
 	
-	private String barcode;
+	private String barcode="";
 	private String quantity;
 	Employee employee;
 	private String customerEmail="";
@@ -69,7 +69,7 @@ public class SalePage extends GUIFunctinos{
 	Vector<Product> product= new Vector<Product>();
 	
 	
-	public SalePage(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream) {
+	public SalePage(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream,Employee loggedInUser) {
 		
 		this.socket=socket;
 		this.fromNetInputStram=fromNetInputStram;
@@ -151,7 +151,7 @@ public class SalePage extends GUIFunctinos{
 		sellBtn.addActionListener(lForSendBtn);
 		
 		EmployeeHelper EmployeeHelper = new EmployeeHelper();
-		employee = EmployeeHelper.login(new Email("niv@gmail.com"), "111111111");
+		employee = loggedInUser;
 		
 		this.add(mainPanel);
 		this.setVisible(true);
@@ -193,6 +193,8 @@ public class SalePage extends GUIFunctinos{
 		public void actionPerformed(ActionEvent e) {
 		
 			if(e.getSource()==addBtn) {
+				int index=serchBySku(product,barcode);
+				if(!barcode.equals("")) {
 				toNetOutputStream.println("add");
 				try {
 					String apply=fromNetInputStram.readLine();
@@ -200,8 +202,7 @@ public class SalePage extends GUIFunctinos{
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-				int index=serchBySku(product,barcode);
-				if(!barcode.equals("")) {
+				
 					if(quantity.equals("")) {
 						amount=1;
 					}

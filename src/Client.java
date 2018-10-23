@@ -27,7 +27,7 @@ public class Client{
 			System.out.println(new Date()+"-->Recived from server: "+ fromNetInputStram.readLine());
 			
 			
-			SalePage EmployeeRegisterForm =new SalePage(socket,fromNetInputStram,toNetOutputStream);
+			LoginForm login =new LoginForm(socket,fromNetInputStram,toNetOutputStream);
 			while(true){
 			
 					/*line = chat.getText();
