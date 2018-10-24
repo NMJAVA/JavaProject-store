@@ -62,7 +62,7 @@ public class Main  {
 				//ProductHelper.insertDemoProductsToDataBase();
 
 				// Print All Products We Have
-				//ProductHelper.printAllProducts();
+				ProductHelper.printAllProducts();
 
 				// Print All Products by type
 				//ProductHelper.printAllProductsByType( "trousers" );

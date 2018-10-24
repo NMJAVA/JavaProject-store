@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -39,6 +41,7 @@ public class SalePage extends GUIFunctinos{
 	private JPanel mainPanel;
 	private JPanel buttons;
 	private JButton addBtn;
+	private JButton backBtn;
 	private JButton removeBtn;
 	private JButton sellBtn;
 	private JTable itemTable;
@@ -138,7 +141,12 @@ public class SalePage extends GUIFunctinos{
 		
 		sellBtn=new JButton("Sell");
 		buttons.add(sellBtn);
+		backBtn=new JButton("Back");
+		buttons.add(backBtn);
+				
 		
+		eventForClose closeWindow=new eventForClose();
+		this.addWindowListener(closeWindow);
 		addBtn.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		removeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		sellBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -149,7 +157,7 @@ public class SalePage extends GUIFunctinos{
 		addBtn.addActionListener(lForSendBtn);
 		removeBtn.addActionListener(lForSendBtn);
 		sellBtn.addActionListener(lForSendBtn);
-		
+		backBtn.addActionListener(lForSendBtn);
 		EmployeeHelper EmployeeHelper = new EmployeeHelper();
 		employee = loggedInUser;
 		
@@ -302,6 +310,11 @@ public class SalePage extends GUIFunctinos{
 					e1.printStackTrace();
 				}}
 			}
+			if(e.getSource()==backBtn) {
+				toNetOutputStream.println("back");
+				dispose();
+			}
+			
 		}
 	}
 
@@ -354,6 +367,48 @@ public class SalePage extends GUIFunctinos{
 		
 	}
 	
+ private class eventForClose implements WindowListener {
 
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+	}
+	MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,employee);
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+ 
+ }
 
 }

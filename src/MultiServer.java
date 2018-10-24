@@ -73,37 +73,24 @@ public class MultiServer {
 						String line="";
 						String password="";
 						Product newProduct;
+						boolean isOff=false;
+						boolean getBack=false;
 						String option="";
+						String searchBy;
+						Employee employee=null;
+						boolean isLogged=false;
 						ProductHelper productHelper=new ProductHelper();
-						while(!line.equals("goodbye")) {
-							
-							
-							
-							
 						
-							
-						/*
-						line=inputStream.readLine();
-							password=inputStream.readLine();
-							System.out.println(password);
-							{
-								Employee newEmployee= new Employee( stringToMember(line) );
-									
-								if( newEmployee.register("password") != null ){
-									System.out.println("Employee Successfully Registered ");
-								} else{
-									System.out.println("Register Failed: Member Already Registered");
-								}
-							}
-							*/
 						
+					
+						while(!isLogged) {
 							use=inputStream.readLine();
 							pass=inputStream.readLine();
 							EmployeeHelper EmployeeHelper = new EmployeeHelper();
-							Employee employee             =  EmployeeHelper.login( new Email( use ) , pass);
+							employee             =  EmployeeHelper.login( new Email( use ) , pass);
 							if( employee != null ) {
 								if( employee.isLoggedIn() ){
-									//System.out.println( employee.getFirstName() + "[" + employee.getId() + "] Is Logged IN AS Employee !");
+									isLogged=true;
 									outputStream.println("true");
 								} else{
 									outputStream.println("false");
@@ -113,10 +100,14 @@ public class MultiServer {
 							outputStream.println("false");
 							}	
 							System.out.println("111");
-							
+						}
+						
+						while(!isOff) {
+							getBack=false;
 							option=inputStream.readLine();
 							switch(option) {
 							   case "sell":
+								   while(!getBack) {
 								   option=inputStream.readLine();
 							switch(option) {
 							   case "add":
@@ -172,12 +163,42 @@ public class MultiServer {
 										System.out.println("false");
 										outputStream.println("false");
 									}
+									
+							
+								   		case "back":
+									   getBack=true;
+									   break;
 								}
-							      break; 
+								   }
+								      break;
+								      
+								      
 							   case "reports":
-								// Statements
+								   while(!getBack) {
+									   option=inputStream.readLine();
+									   switch (option) {
+										   case "search":
+											 break;
+											 switch (searchBy) {
+											 case "all":
+												 break;
+											 case "buyer":
+												 break;
+											 case "seller":
+												 break;
+											 
+											 }
+										   case "back":
+											   getBack=true;
+												 break;
+									   }  
+								   }
 							      break;
 							   case "newCustomer":
+								   while(!getBack) {
+									   option=inputStream.readLine();
+									   switch (option) {
+										   case "submit":
 								   line=inputStream.readLine();
 									{
 										Customer newCustomer= new Customer( stringToMember(line) );
@@ -188,7 +209,20 @@ public class MultiServer {
 											System.out.println("Register Failed: Member Already Registered");
 										}
 									}
+									break;
+										   case "back":
+											   getBack=true;
+										   break;
+										   		
+									   }
+									   
+								   }
 								      break;
+							   case "Chat":
+								   while(!getBack) {
+									   
+								   }
+								   break;
 							   // You can have any number of case statements.
 							   default : // Optional
 							      // Statements

@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -19,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
 
 
 public class CustomerRegisterForm extends GUIFunctinos{
@@ -55,12 +58,13 @@ public class CustomerRegisterForm extends GUIFunctinos{
 	private String	phone;
 	private String email;
 	private String customer;
-	
+	private JButton backBtn;
+	private Employee employee;
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
 	
-	public CustomerRegisterForm(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream) {
+	public CustomerRegisterForm(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream,Employee loggedInUser) {
 			
 			this.socket=socket;
 			this.fromNetInputStram=fromNetInputStram;
@@ -76,7 +80,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 			//Setting the title of the frame
 			this.setTitle("New Customer");
 		
-			
+			employee=loggedInUser;
 			mainPanel = new JPanel();
 			mainPanel.setLayout(new GridBagLayout());
 			firstNameLabel =new JLabel("First Name");	
@@ -89,7 +93,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 			lastNameText= new JTextField(15);
 			addComp(mainPanel,lastNameText,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
-			
+			backBtn=new JButton("back");
 			
 			phoneLabel= new JLabel("Phone");
 			addComp(mainPanel,phoneLabel,1,2,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
@@ -120,8 +124,11 @@ public class CustomerRegisterForm extends GUIFunctinos{
 			addComp(mainPanel,houseNumberText,2,7,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 			
 			submitBtn=new JButton("Submit");
-			addComp(mainPanel,submitBtn,2,8,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
+			addComp(mainPanel,submitBtn,2,8,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
+			addComp(mainPanel,backBtn,2,8,1,1,GridBagConstraints.EAST,GridBagConstraints.NONE);
+			
 			this.add(mainPanel);
+			
 			
 			ListenForButton lForSendBtn= new ListenForButton();
 			submitBtn.addActionListener(lForSendBtn);
@@ -136,9 +143,10 @@ public class CustomerRegisterForm extends GUIFunctinos{
 			streetText.addKeyListener(lForText);
 			houseNumberText.addKeyListener(lForText);
 
+			eventForClose closeWindow=new eventForClose();
+			this.addWindowListener(closeWindow);
 			
-			
-			
+			backBtn.addActionListener(lForSendBtn);
 			//Setting the frame to be visible
 			this.setVisible(true);
 	}
@@ -180,6 +188,7 @@ public class CustomerRegisterForm extends GUIFunctinos{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==submitBtn) {
+				toNetOutputStream.println("submit");
 				if(!lttersOnly(firstName)) {
 					JOptionPane.showMessageDialog(null, "First Name should contain only lettes!");
 
@@ -209,7 +218,54 @@ public class CustomerRegisterForm extends GUIFunctinos{
 				toNetOutputStream.println(customer);
 				}
 			}
+			if(e.getSource()==backBtn) {
+				toNetOutputStream.println("back");
+				dispose();
+			}
 			
 		}
 	}
+	private class eventForClose implements WindowListener {
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+		}
+		MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,employee);
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	 
+	 }
 }

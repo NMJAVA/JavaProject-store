@@ -100,23 +100,23 @@ private class ListenForButton implements ActionListener{
 		if(e.getSource()==sellBtn) {
 			toNetOutputStream.println("sell");
 			SalePage sale=new SalePage(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
-			setVisible(false);
+			dispose();
 			}
 		if(e.getSource()==reportsBtn) {
 			toNetOutputStream.println("reports");
-			Reports reports=new Reports();
-			setVisible(false);
+			Reports reports=new Reports(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
+			dispose();
 		}
 	
 		if(e.getSource()==newCustomerBtn) {
 			toNetOutputStream.println("newCustomer");
-			CustomerRegisterForm CustomerRegisterForm=new CustomerRegisterForm(socket,fromNetInputStram,toNetOutputStream);
-			setVisible(false);
+			CustomerRegisterForm CustomerRegisterForm=new CustomerRegisterForm(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
+			dispose();
 		}
 		if(e.getSource()==chatBtn) {
 			toNetOutputStream.println("Chat");
 			ChatGUI chat=new ChatGUI(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
-			setVisible(false);
+			dispose();
 		}
 		if(e.getSource()==exitBtn) {
 			System.exit(0);

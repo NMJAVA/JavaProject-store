@@ -122,7 +122,8 @@ public class LoginForm extends GUIFunctinos{
 						
 						if(fromNetInputStram.readLine().equals("true")) {
 							MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,user);
-							setVisible(false);
+							//setVisible(false);
+							dispose();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Wrong password or email");

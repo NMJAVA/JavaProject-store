@@ -12,7 +12,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -52,9 +56,20 @@ public class Reports extends GUIFunctinos{
 	private JLabel userLabel;
 	private JPanel userPanel;
 	private JLabel spaceLabel;
+	private JButton backBtn;
+	private JButton wordBtn;
 	ArrayList<Order> searchResult;
-	 OrderHelper orderHelper;
-	public Reports(){
+	private OrderHelper orderHelper;
+	private Employee employee;
+	Socket socket;
+	DataInputStream fromNetInputStram;
+	PrintStream toNetOutputStream;
+	
+	public Reports(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream,Employee loggedInUser){
+		this.socket=socket;
+		this.fromNetInputStram=fromNetInputStram;
+		this.toNetOutputStream=toNetOutputStream;
+		employee=loggedInUser;
 		//Setting the frame size
 				this.setSize(550,650);
 				//Setting the frame default location in the middle of the screen
@@ -99,9 +114,10 @@ public class Reports extends GUIFunctinos{
 				searchLabel=new JLabel("Search");
 				searchText=new JTextField(15);
 				searchBtn= new JButton("Search");
+				backBtn= new JButton("Back");
 				
 				searchBySeller= new JRadioButton("Seller");
-				showAll=new JRadioButton("Barcode");
+				showAll=new JRadioButton("Show All");
 				searchByBuyer=new JRadioButton("Buyer");
 				ButtonGroup searchTypes= new ButtonGroup();
 				
@@ -125,29 +141,30 @@ public class Reports extends GUIFunctinos{
 				searchPanel.add(searchLabel);
 				searchPanel.add(searchText);
 				searchPanel.add(searchBtn);
-				
+
+				wordBtn=new JButton("Word Repoert");
 				userPanel.add(userLabel);
 				userPanel.add(spaceLabel);
 				addComp(mainPanel,userPanel,0,0,1,1,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE);
 				addComp(mainPanel,searchPanel,0,0,1,1,GridBagConstraints.NORTH,GridBagConstraints.NONE);
 				addComp(mainPanel,searchTypePanel,0,0,1,1,GridBagConstraints.SOUTH,GridBagConstraints.NONE);
-				addComp(mainPanel,tablePanel,0,1,1,2,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
+				addComp(mainPanel,wordBtn,0,1,1,1,GridBagConstraints.SOUTH,GridBagConstraints.NONE);
+				addComp(mainPanel,tablePanel,0,2,1,2,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
+				addComp(mainPanel,backBtn,0,4,1,1,GridBagConstraints.EAST,GridBagConstraints.NONE);
+				searchResult = new ArrayList<Order>();
 				ListenForKeys lForSearch=new ListenForKeys();
 				searchText.addKeyListener(lForSearch);
 				userPanel.setBorder(blackBorder);
-				ListenForButton lForSendBtn= new ListenForButton();
-				searchBtn.addActionListener(lForSendBtn);
-				
+				ListenForButton lForBtn= new ListenForButton();
+				searchBtn.addActionListener(lForBtn);
+				backBtn.addActionListener(lForBtn);
 				this.add(mainPanel);
 				this.setVisible(true);
 	}
 	
 
 	
-	public static void main(String[] args) {
-		new Reports();
-	}
-	
+
 	private class ListenForKeys implements KeyListener{
 
 		@Override
@@ -173,20 +190,27 @@ public class Reports extends GUIFunctinos{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			orderHelper=new OrderHelper();
+		
 			
 			if(e.getSource()==searchBtn) {	
+				toNetOutputStream.println("search");
+				for(int i=(searchResult.size()-1);i>=0;i--)
+				{
+					model.removeRow(i);
+					searchResult.remove(i);
+				}
 				try {
 							if(showAll.isSelected()) {
 								searchResult=orderHelper.getAllOrders();
 							}	
 							else if(searchByBuyer.isSelected()) {
 								
-									searchResult=orderHelper.getAllByCustomerEmail( "String email" );
+									searchResult=orderHelper.getAllByCustomerEmail( "luke@gmail.com" );
 								
 							}
 							else if(searchBySeller.isSelected()) {
-								System.out.println("111");
-								orderHelper.getAllByEmployeeEmail("luke@gmail.com");
+								searchResult=orderHelper.getAllByEmployeeEmail("niv@gmail.com");
 							}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -200,9 +224,70 @@ public class Reports extends GUIFunctinos{
 	                row[2] = searchResult.get(i).getEmployeeID();
 	                row[3] =searchResult.get(i).getCustomerID();
 	                row[4] =searchResult.get(i).getAmount();
+	                model.addRow(row);
 				}
+			}
+			if(e.getSource()==wordBtn) {
+				try {
+					OrderHelper OrderHelper = new OrderHelper();	
+					OrderHelper.createWordFromAllOrders(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			if(e.getSource()==backBtn) {	
+				//toNetOutputStream.println("back");
+				dispose();
 			}
 		}
 	}
+	
+	 private class eventForClose implements WindowListener {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+			}
+			//MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,employee);
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		 
+		 }
 	
 }

@@ -30,11 +30,7 @@ public class Client{
 			LoginForm login =new LoginForm(socket,fromNetInputStram,toNetOutputStream);
 			while(true){
 			
-					/*line = chat.getText();
-					toNetOutputStream.println(new Date()+": "+line);
-					chat.printMessage(fromNetInputStram.readLine());	
-					*/
-			
+					
 
 			}
 		}catch (Exception e) {System.err.println(e);
