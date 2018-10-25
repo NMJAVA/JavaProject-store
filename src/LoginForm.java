@@ -121,6 +121,7 @@ public class LoginForm extends GUIFunctinos{
 					try {
 						
 						if(fromNetInputStram.readLine().equals("true")) {
+							user=new Employee(stringToMember(fromNetInputStram.readLine()));
 							MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,user);
 							//setVisible(false);
 							dispose();
@@ -142,6 +143,40 @@ public class LoginForm extends GUIFunctinos{
 	}
 	
 
+static Member stringToMember(String customerDetails){
+		
+		String firstName;
+		String lastName;
+		Address address=new Address();
+		String phone;
+		String email;
+		
+		
+		 firstName=customerDetails.substring(0, customerDetails.indexOf('|'));	
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 lastName=customerDetails.substring(0, customerDetails.indexOf('|'));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 address.setCity(customerDetails.substring(0, customerDetails.indexOf('|')));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 address.setStreet(customerDetails.substring(0, customerDetails.indexOf('|')));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 address.setHouseNumber(customerDetails.substring(0, customerDetails.indexOf('|')));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 
+		 phone=customerDetails.substring(0, customerDetails.indexOf('|'));;
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 email=customerDetails;
+		
+
+		Member memberToRegister2   = new Member(firstName, lastName, address, phone , email );
+		return memberToRegister2;
+	}
 	
 	
 	}

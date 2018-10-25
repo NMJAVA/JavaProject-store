@@ -74,14 +74,13 @@ public class MainMenu extends GUIFunctinos{
 		buttons.add(newCustomerBtn);
 		buttons.add(chatBtn);
 		buttons.add(exitBtn);
-	
+		loggedInUser=user;
 		addComp(mainPanel,userLabel,0,0,1,1,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE);
 		addComp(mainPanel,headLineLabel,0,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 		addComp(mainPanel,buttons,0,1,1,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 
 		ListenForButton lForSendBtn= new ListenForButton();
 		sellBtn.addActionListener(lForSendBtn);
-		reportsBtn.addActionListener(lForSendBtn);
 		reportsBtn.addActionListener(lForSendBtn);
 		newCustomerBtn.addActionListener(lForSendBtn);
 		exitBtn.addActionListener(lForSendBtn);

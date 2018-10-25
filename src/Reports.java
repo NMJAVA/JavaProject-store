@@ -38,6 +38,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 
+
 public class Reports extends GUIFunctinos{
 
 	private JPanel mainPanel;
@@ -61,6 +62,8 @@ public class Reports extends GUIFunctinos{
 	ArrayList<Order> searchResult;
 	private OrderHelper orderHelper;
 	private Employee employee;
+	private String email="";
+	private int i=0;
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
@@ -100,7 +103,9 @@ public class Reports extends GUIFunctinos{
 					 stockTable = new JTable(model);
 
 					 
-
+					 eventForClose closeWindow=new eventForClose();
+						this.addWindowListener(closeWindow);
+						
 					 JScrollPane scroll = new JScrollPane(stockTable);
 						Border blackBorder = BorderFactory.createLineBorder(Color.BLACK);
 						scroll.setBorder(blackBorder);
@@ -175,13 +180,13 @@ public class Reports extends GUIFunctinos{
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
+	
 			
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
+			email=searchText.getText();
 			
 		}
 	}
@@ -200,33 +205,84 @@ public class Reports extends GUIFunctinos{
 					model.removeRow(i);
 					searchResult.remove(i);
 				}
-				try {
+			
 							if(showAll.isSelected()) {
-								searchResult=orderHelper.getAllOrders();
+								toNetOutputStream.println("all");
+								
 							}	
 							else if(searchByBuyer.isSelected()) {
-								
-									searchResult=orderHelper.getAllByCustomerEmail( "luke@gmail.com" );
+								toNetOutputStream.println("buyer");
+								toNetOutputStream.println(email);
 								
 							}
 							else if(searchBySeller.isSelected()) {
-								searchResult=orderHelper.getAllByEmployeeEmail("niv@gmail.com");
+								toNetOutputStream.println("seller");
+								toNetOutputStream.println(email);
 							}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
+				
+				
+			
+							try {
+								String nextRow= fromNetInputStram.readLine();
+								System.out.println(nextRow);
+			while(nextRow.equals("next"))
+			{
+				
+				String tempString="";
+				 int tempInt=0;
+				Order tempOrder;
+				int tempId;
+				String temoDate;
+				String tempSku;
+				int tempEmpId;
+				int tempCusId;
+				int tempAmount;
+				 tempString=fromNetInputStram.readLine();
+				 
+				 tempInt=Integer.parseInt(tempString);
+				 tempId=tempInt;
+              
+				 tempSku=fromNetInputStram.readLine();
+				 
+				 temoDate=fromNetInputStram.readLine();
+				
+               
+                tempString=fromNetInputStram.readLine();
+				 tempInt=Integer.parseInt(tempString);
+				 tempEmpId=tempInt;
+               
+                tempString=fromNetInputStram.readLine();
+				 tempInt=Integer.parseInt(tempString);
+				 tempCusId=tempInt;
+                
+                tempString=fromNetInputStram.readLine();
+				 tempInt=Integer.parseInt(tempString);
+				 tempAmount=tempInt;
+				 
+				 tempOrder=new Order(tempId,tempSku,temoDate,tempEmpId,tempCusId,tempAmount);
+				 searchResult.add(tempOrder);
+                i++;
+                 nextRow= fromNetInputStram.readLine();
+			}
+			i=0;
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 				for(int i=0;i<searchResult.size();i++ )
 				{
 					Object[] row=new Object[5];
-					row[0] = searchResult.get(i).getId();
+					row[0] = searchResult.get(i).getProductSKU();
 	                row[1] =searchResult.get(i).getDate();
 	                row[2] = searchResult.get(i).getEmployeeID();
 	                row[3] =searchResult.get(i).getCustomerID();
 	                row[4] =searchResult.get(i).getAmount();
 	                model.addRow(row);
 				}
+				searchText.setText("");
 			}
+			
 			if(e.getSource()==wordBtn) {
 				try {
 					OrderHelper OrderHelper = new OrderHelper();	
@@ -240,7 +296,7 @@ public class Reports extends GUIFunctinos{
 				}
 			}
 			if(e.getSource()==backBtn) {	
-				//toNetOutputStream.println("back");
+				toNetOutputStream.println("back");
 				dispose();
 			}
 		}
@@ -262,7 +318,7 @@ public class Reports extends GUIFunctinos{
 			@Override
 			public void windowClosed(WindowEvent e) {
 			}
-			//MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,employee);
+			MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,employee);
 
 			@Override
 			public void windowIconified(WindowEvent e) {

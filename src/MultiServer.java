@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.lang.*;
 
@@ -80,6 +81,8 @@ public class MultiServer {
 						Employee employee=null;
 						boolean isLogged=false;
 						ProductHelper productHelper=new ProductHelper();
+						ArrayList<Order> searchResult;
+
 						
 						
 					
@@ -92,6 +95,9 @@ public class MultiServer {
 								if( employee.isLoggedIn() ){
 									isLogged=true;
 									outputStream.println("true");
+									//firstName, lastName, address, phone , email
+									String tempString=employee.getFirstName()+"|"+employee.getLastName()+"|"+employee.getObjectAddress().getCity()+"|"+employee.getObjectAddress().getStreet()+"|"+employee.getObjectAddress().getHouseNumber()+"|"+employee.getPhone()+"|"+employee.getEmail();
+									outputStream.println(tempString);
 								} else{
 									outputStream.println("false");
 								}	
@@ -99,7 +105,6 @@ public class MultiServer {
 							else{
 							outputStream.println("false");
 							}	
-							System.out.println("111");
 						}
 						
 						while(!isOff) {
@@ -174,20 +179,52 @@ public class MultiServer {
 								      
 								      
 							   case "reports":
+									
 								   while(!getBack) {
 									   option=inputStream.readLine();
 									   switch (option) {
 										   case "search":
-											 break;
-											 switch (searchBy) {
+											   OrderHelper orderHelper=new OrderHelper();
+											   searchResult = new ArrayList<Order>();
+											   searchBy=inputStream.readLine();
+											 switch (searchBy) {	
 											 case "all":
+										
+													searchResult=orderHelper.getAllOrders();
 												 break;
 											 case "buyer":
+												 line=inputStream.readLine();
+									
+													searchResult=orderHelper.getAllByCustomerEmail(line);
+													 
 												 break;
 											 case "seller":
+												 line=inputStream.readLine();	
+											
+													searchResult=orderHelper.getAllByEmployeeEmail(line);
+													 
 												 break;
-											 
 											 }
+											 for(int i=0;i<searchResult.size();i++ )
+												{
+												 
+												 outputStream.println("next");
+												 line=String.valueOf(searchResult.get(i).getId());
+												 outputStream.println(line);
+												 line=String.valueOf(searchResult.get(i).getProductSKU());
+												 outputStream.println(line);
+												 line=searchResult.get(i).getDate();
+												 outputStream.println(line);
+												 line=String.valueOf(searchResult.get(i).getEmployeeID());
+												 outputStream.println(line);
+												 line=String.valueOf(searchResult.get(i).getCustomerID());
+												 outputStream.println(line);
+												 line=String.valueOf(searchResult.get(i).getAmount());
+												 outputStream.println(line);
+									              
+												}
+											 outputStream.println("end");
+											 break;
 										   case "back":
 											   getBack=true;
 												 break;
@@ -210,6 +247,7 @@ public class MultiServer {
 										}
 									}
 									break;
+										
 										   case "back":
 											   getBack=true;
 										   break;
@@ -220,7 +258,18 @@ public class MultiServer {
 								      break;
 							   case "Chat":
 								   while(!getBack) {
+									   option=inputStream.readLine();
+									   switch (option) {
 									   
+									   case "chat":
+										  line=inputStream.readLine();
+										  outputStream.println(line);
+									   break;
+
+									   case "back":
+										   getBack=true;
+									   break;
+									   }
 								   }
 								   break;
 							   // You can have any number of case statements.

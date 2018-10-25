@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -25,6 +27,8 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+
 
 public class ChatGUI extends GUIFunctinos{
 	
@@ -66,7 +70,7 @@ public class ChatGUI extends GUIFunctinos{
 		mainPanel=new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
 		mainPanel.setBorder(new EmptyBorder(10,10,10,10));
-		employee=loggedInUser;
+		employee= loggedInUser;
 		chatBox=new JTextArea(20,32);
 		chatBox.setEditable(false);
 		chatBox.setLineWrap(true);
@@ -75,6 +79,8 @@ public class ChatGUI extends GUIFunctinos{
 		JScrollPane chatBoxScrollBar= new JScrollPane(chatBox,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		addComp(mainPanel,chatBoxScrollBar,0,0,1,1,GridBagConstraints.WEST,GridBagConstraints.NONE);
 	
+		eventForClose closeWindow=new eventForClose();
+		this.addWindowListener(closeWindow);
 		
 
 		
@@ -113,7 +119,10 @@ public class ChatGUI extends GUIFunctinos{
 			if(e.getSource()==sendBtn) {
 				if(!text.equals("")) {
 					try {
-					toNetOutputStream.println((new Date()+": "+text));
+						toNetOutputStream.println("chat");
+
+					toNetOutputStream.println(new Date()+"|"+employee.getFirstName()+": "+text);
+					System.out.println("11111111");
 						chatBox.append(fromNetInputStram.readLine()+'\n');
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
@@ -169,7 +178,49 @@ public class ChatGUI extends GUIFunctinos{
 		return res;
 	}
 	
-	
+	 private class eventForClose implements WindowListener {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+			}
+			MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,employee);
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		 
+		 }
 	
 }
 
