@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.Date;
 
 public class Client{
-
+//User client connect to the server
 	public static void main(String[] args) {
 		Socket socket = null;
 		DataInputStream fromNetInputStram;

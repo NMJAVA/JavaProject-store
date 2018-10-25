@@ -13,44 +13,6 @@ public class MultiServer {
 	
 	
 	
-	static String proudctToString(Product x) {
-	return (x.getSKU()+"|"+x.getName()+"|"+x.getType()+"|"+x.getSize()+"|"+x.getPrice());
-	
-	}
-	static Member stringToMember(String customerDetails){
-		
-		String firstName;
-		String lastName;
-		Address address=new Address();
-		String phone;
-		String email;
-		
-		
-		 firstName=customerDetails.substring(0, customerDetails.indexOf('|'));	
-		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
-		 
-		 lastName=customerDetails.substring(0, customerDetails.indexOf('|'));
-		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
-		 
-		 address.setCity(customerDetails.substring(0, customerDetails.indexOf('|')));
-		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
-		 
-		 address.setStreet(customerDetails.substring(0, customerDetails.indexOf('|')));
-		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
-		 
-		 address.setHouseNumber(customerDetails.substring(0, customerDetails.indexOf('|')));
-		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
-		 
-		 
-		 phone=customerDetails.substring(0, customerDetails.indexOf('|'));;
-		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
-		 
-		 email=customerDetails;
-		
-
-		Member memberToRegister2   = new Member(firstName, lastName, address, phone , email );
-		return memberToRegister2;
-	}
 	
 	public static void main(String[] args) throws IOException{
 		final ServerSocket server= new ServerSocket(7000);
@@ -240,7 +202,33 @@ public class MultiServer {
 									{
 										Customer newCustomer= new Customer( stringToMember(line) );
 											
-										if( newCustomer.register("password") != null ){
+										if( newCustomer.register("111111111") != null ){
+											System.out.println("Employee Successfully Registered ");
+										} else{
+											System.out.println("Register Failed: Member Already Registered");
+										}
+									}
+									break;
+										
+										   case "back":
+											   getBack=true;
+										   break;
+										   		
+									   }
+									   
+								   }
+								      break;
+							   case "newEmployee":
+								   while(!getBack) {
+									   option=inputStream.readLine();
+									   switch (option) {
+										   case "submit":
+								   line=inputStream.readLine();
+								   String empPassword=inputStream.readLine();
+									{
+										Employee newEmployee= new Employee( stringToMember(line) );
+											
+										if( newEmployee.register(empPassword) != null ){
 											System.out.println("Employee Successfully Registered ");
 										} else{
 											System.out.println("Register Failed: Member Already Registered");
@@ -286,5 +274,43 @@ public class MultiServer {
 				}
 				}		
 	
+
+	static String proudctToString(Product x) {
+	return (x.getSKU()+"|"+x.getName()+"|"+x.getType()+"|"+x.getSize()+"|"+x.getPrice());
 	
+	}
+	static Member stringToMember(String customerDetails){
+		
+		String firstName;
+		String lastName;
+		Address address=new Address();
+		String phone;
+		String email;
+		
+		
+		 firstName=customerDetails.substring(0, customerDetails.indexOf('|'));	
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 lastName=customerDetails.substring(0, customerDetails.indexOf('|'));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 address.setCity(customerDetails.substring(0, customerDetails.indexOf('|')));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 address.setStreet(customerDetails.substring(0, customerDetails.indexOf('|')));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 address.setHouseNumber(customerDetails.substring(0, customerDetails.indexOf('|')));
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 
+		 phone=customerDetails.substring(0, customerDetails.indexOf('|'));;
+		 customerDetails=customerDetails.substring(customerDetails.indexOf('|')+1, customerDetails.length());
+		 
+		 email=customerDetails;
+		
+
+		Member memberToRegister2   = new Member(firstName, lastName, address, phone , email );
+		return memberToRegister2;
+	}
 }

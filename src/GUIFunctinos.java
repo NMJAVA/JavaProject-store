@@ -7,11 +7,11 @@ import java.net.Socket;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+//Function fot the gui classs
 public abstract class GUIFunctinos extends JFrame{
-	protected void addComp(JPanel thePanel, JComponent comp, int xPos, int yPos, int compWidth, int compHeight, int place, int stretch){
-
-		
+	
+	//adding new component to the gridbad layout
+	protected void addComp(JPanel thePanel, JComponent comp, int xPos, int yPos, int compWidth, int compHeight, int place, int stretch){		
         GridBagConstraints gridConstraints = new GridBagConstraints();
 
          
@@ -28,7 +28,7 @@ public abstract class GUIFunctinos extends JFrame{
 
         thePanel.add(comp, gridConstraints);
     }
-	
+	//check for boolean lettes
 	public boolean lttersOnly(String str) {
 		for (char c : str.toCharArray()) {
 		    if ((!Character.isLetter(c))&&!Character.isSpace(c)) {
@@ -38,7 +38,7 @@ public abstract class GUIFunctinos extends JFrame{
 		}
 		 return true;
 	}
-	
+	//Check for digit only
 	public boolean digitOnly(String str) {
 		for (char c : str.toCharArray()) {
 		    if (!Character.isDigit(c)) {

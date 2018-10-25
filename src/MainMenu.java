@@ -24,6 +24,7 @@ public class MainMenu extends GUIFunctinos{
 	
 	private JButton reportsBtn;
 	private JButton newCustomerBtn;
+	private JButton newEmployeeBtn;
 	private JButton exitBtn;
 	private JPanel mainPanel;
 	private JLabel userLabel;
@@ -49,7 +50,7 @@ public class MainMenu extends GUIFunctinos{
 		//Setting the option to close the window using the X button
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//Setting the title of the frame
-		this.setTitle("mainMenu");
+		this.setTitle("Main Menu");
 	
 		mainPanel=new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
@@ -64,6 +65,7 @@ public class MainMenu extends GUIFunctinos{
 		reportsBtn=new JButton("Stock");
 		reportsBtn=new JButton("Reports");
 		newCustomerBtn=new JButton("New Customer");
+		newEmployeeBtn=new JButton("New Employee");
 		exitBtn=new JButton("Exit");
 		chatBtn=new JButton("Chat");
 		//mainPanel.add(headLineLabel);
@@ -71,47 +73,58 @@ public class MainMenu extends GUIFunctinos{
 		buttons.add(reportsBtn);
 		buttons.add(reportsBtn);
 		buttons.add(chatBtn);
-		buttons.add(newCustomerBtn);
 		buttons.add(chatBtn);
+		buttons.add(newCustomerBtn);
+		buttons.add(newEmployeeBtn);
 		buttons.add(exitBtn);
 		loggedInUser=user;
 		addComp(mainPanel,userLabel,0,0,1,1,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE);
 		addComp(mainPanel,headLineLabel,0,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 		addComp(mainPanel,buttons,0,1,1,1,GridBagConstraints.CENTER,GridBagConstraints.BOTH);
 
-		ListenForButton lForSendBtn= new ListenForButton();
-		sellBtn.addActionListener(lForSendBtn);
-		reportsBtn.addActionListener(lForSendBtn);
-		newCustomerBtn.addActionListener(lForSendBtn);
-		exitBtn.addActionListener(lForSendBtn);
-		chatBtn.addActionListener(lForSendBtn);
+		//Connecting the buttons to the listeners
+		ListenForButton lForBtn= new ListenForButton();
+		sellBtn.addActionListener(lForBtn);
+		reportsBtn.addActionListener(lForBtn);
+		newCustomerBtn.addActionListener(lForBtn);
+		newEmployeeBtn.addActionListener(lForBtn);
+		exitBtn.addActionListener(lForBtn);
+		chatBtn.addActionListener(lForBtn);
 		this.add(mainPanel);
 		
 		this.setVisible(true);
 	}
 
-
+//Listener  for the buttons open the wanted JFrame or close the app 
 private class ListenForButton implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		//Open the sale JFrame
 		if(e.getSource()==sellBtn) {
 			toNetOutputStream.println("sell");
 			SalePage sale=new SalePage(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
 			dispose();
 			}
+		//Open the report JFrame
 		if(e.getSource()==reportsBtn) {
 			toNetOutputStream.println("reports");
 			Reports reports=new Reports(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
 			dispose();
 		}
-	
+		//Open the report new customer JFrame
 		if(e.getSource()==newCustomerBtn) {
 			toNetOutputStream.println("newCustomer");
 			CustomerRegisterForm CustomerRegisterForm=new CustomerRegisterForm(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
 			dispose();
 		}
+		//Open the report new employee JFrame
+		if(e.getSource()==newEmployeeBtn) {
+			toNetOutputStream.println("newEmployee");
+			EmployeeRegisterForm Employee=new EmployeeRegisterForm(socket,fromNetInputStram,toNetOutputStream,loggedInUser);
+			dispose();
+		}
+		//Open the report new chat JFrame
 		if(e.getSource()==chatBtn) {
 			toNetOutputStream.println("Chat");
 			ChatGUI chat=new ChatGUI(socket,fromNetInputStram,toNetOutputStream,loggedInUser);

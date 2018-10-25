@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+//constructor for the login GUI
 public class LoginForm extends GUIFunctinos{
 
 	private JPanel mainPanel;
@@ -28,6 +28,7 @@ public class LoginForm extends GUIFunctinos{
 	private JButton loginBtn;
 	private Employee user;
 	
+	//Server-Client properties declaration
 	Socket socket;
 	DataInputStream fromNetInputStram;
 	PrintStream toNetOutputStream;
@@ -39,6 +40,7 @@ public class LoginForm extends GUIFunctinos{
 	public LoginForm(Socket socket,DataInputStream fromNetInputStram,PrintStream toNetOutputStream) {
 		//Set connection to server objects variable 
 		
+		//Applying server-Client arguments 
 		this.socket=socket;
 		this.fromNetInputStram=fromNetInputStram;
 		this.toNetOutputStream=toNetOutputStream;
@@ -92,7 +94,7 @@ public class LoginForm extends GUIFunctinos{
 		public void keyPressed(KeyEvent e) {
 			
 		}
-
+//getting the text from the email and password text field 
 		@Override
 		public void keyReleased(KeyEvent arg0) {
 			emailAttempt=emailText.getText();
@@ -112,14 +114,14 @@ public class LoginForm extends GUIFunctinos{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			//Login button action
 			if(e.getSource()==loginBtn) {
-		
+		//send the email and the password to the serever
 					toNetOutputStream.println(emailAttempt);
 					toNetOutputStream.println(passwordAttempt);
 					
 					try {
-						
+						//checks if the detail exsist and right
 						if(fromNetInputStram.readLine().equals("true")) {
 							user=new Employee(stringToMember(fromNetInputStram.readLine()));
 							MainMenu mainMenu=new MainMenu(socket,fromNetInputStram,toNetOutputStream,user);
@@ -142,7 +144,7 @@ public class LoginForm extends GUIFunctinos{
 		
 	}
 	
-
+//Decrypt a String to member for getting a user
 static Member stringToMember(String customerDetails){
 		
 		String firstName;

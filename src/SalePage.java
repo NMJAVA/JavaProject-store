@@ -100,6 +100,7 @@ public class SalePage extends GUIFunctinos{
 		          return false;
 		        }
 		      };
+		    //Creating a JTABLE with option of adding and removing rows
 		 model.setColumnIdentifiers(columns);
 		 itemTable = new JTable(model);
 		 JScrollPane scroll = new JScrollPane(itemTable);
@@ -138,19 +139,20 @@ public class SalePage extends GUIFunctinos{
 		removeBtn=new JButton("Remove");
 		buttons.add(removeBtn);
 
-		
+	
 		sellBtn=new JButton("Sell");
 		buttons.add(sellBtn);
 		backBtn=new JButton("Back");
 		buttons.add(backBtn);
 				
-		
+		//Adding the close event
 		eventForClose closeWindow=new eventForClose();
 		this.addWindowListener(closeWindow);
 		addBtn.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		removeBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		sellBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		//adding button layout to manget the button
 		addComp(mainPanel,buttons,1,0,1,1,GridBagConstraints.CENTER,GridBagConstraints.NONE);
 		
 		ListenForButtons lForSendBtn= new ListenForButtons();
@@ -319,7 +321,7 @@ public class SalePage extends GUIFunctinos{
 	}
 
 	
-	
+	//decrypt string to proudct
 	
 	static Product stringToProduct(String customerDetails,int amount){
 		
@@ -366,7 +368,9 @@ public class SalePage extends GUIFunctinos{
 		return -1;
 		
 	}
+
 	
+	//Event for closing
  private class eventForClose implements WindowListener {
 
 	@Override

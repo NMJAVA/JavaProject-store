@@ -9,3 +9,7 @@
 /Reports$eventForClose.class
 /CustomerRegisterForm$eventForClose.class
 /ChatGUI$eventForClose.class
+/EmployeeRegisterForm.class
+/EmployeeRegisterForm$ListenForButton.class
+/EmployeeRegisterForm$ListenForKeys.class
+/EmployeeRegisterForm$eventForClose.class

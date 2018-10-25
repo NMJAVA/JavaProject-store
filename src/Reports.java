@@ -35,10 +35,6 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-
-
-
-
 public class Reports extends GUIFunctinos{
 
 	private JPanel mainPanel;
@@ -99,6 +95,8 @@ public class Reports extends GUIFunctinos{
 					          return false;
 					        }
 					      };
+						    //Creating a JTABLE with option of adding and removing rows
+
 					 model.setColumnIdentifiers(columns);
 					 stockTable = new JTable(model);
 
@@ -197,7 +195,7 @@ public class Reports extends GUIFunctinos{
 		public void actionPerformed(ActionEvent e) {
 			orderHelper=new OrderHelper();
 		
-			
+			//Showing the sales data based on search option
 			if(e.getSource()==searchBtn) {	
 				toNetOutputStream.println("search");
 				for(int i=(searchResult.size()-1);i>=0;i--)
@@ -205,16 +203,18 @@ public class Reports extends GUIFunctinos{
 					model.removeRow(i);
 					searchResult.remove(i);
 				}
-			
+			//Select all sales
 							if(showAll.isSelected()) {
 								toNetOutputStream.println("all");
 								
 							}	
+							//Select sale by buyer mail
 							else if(searchByBuyer.isSelected()) {
 								toNetOutputStream.println("buyer");
 								toNetOutputStream.println(email);
 								
 							}
+							//Select sale by Seller mail
 							else if(searchBySeller.isSelected()) {
 								toNetOutputStream.println("seller");
 								toNetOutputStream.println(email);
@@ -226,6 +226,7 @@ public class Reports extends GUIFunctinos{
 							try {
 								String nextRow= fromNetInputStram.readLine();
 								System.out.println(nextRow);
+								//getting al the details for each sale from the server
 			while(nextRow.equals("next"))
 			{
 				
@@ -270,6 +271,7 @@ public class Reports extends GUIFunctinos{
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
+							//print all the sales on screen
 				for(int i=0;i<searchResult.size();i++ )
 				{
 					Object[] row=new Object[5];
@@ -282,7 +284,7 @@ public class Reports extends GUIFunctinos{
 				}
 				searchText.setText("");
 			}
-			
+			//Export all the sellin data to word
 			if(e.getSource()==wordBtn) {
 				try {
 					OrderHelper OrderHelper = new OrderHelper();	
@@ -301,7 +303,7 @@ public class Reports extends GUIFunctinos{
 			}
 		}
 	}
-	
+	//Event for closing
 	 private class eventForClose implements WindowListener {
 
 			@Override

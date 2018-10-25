@@ -1,4 +1,4 @@
-
+//Class the keep all the adress details
 public class Address {
 	int houseNumber;
 	String street;
@@ -15,6 +15,7 @@ public class Address {
 	 * @param Street [String]
 	 * @param HouseNumber [int]
 	 */
+	//constructor for address with each properties
 	Address(String City,String Street,int HouseNumber){
 		setCity(City);
 		setStreet(Street);
@@ -24,6 +25,7 @@ public class Address {
 	 * Constructor - Split One String to City And Street
 	 * @param fullAddress [String]
 	 */
+	//constructor for address based on another address
 	Address( String fullAddress ){
 
 		String[] addressParts = fullAddress.split(",");
@@ -40,12 +42,12 @@ public class Address {
 			return;
 		}
 	}
-
+//Set for the class properties
 	public void setCity(String City) {city=new String(City);};
 	public void setStreet(String Street) {street=new String(Street);};
 	public void setHouseNumber(int HouseNumber) {houseNumber=HouseNumber;};
 	public void setHouseNumber(String HouseNumber) {houseNumber=Integer.valueOf(HouseNumber);};
-
+//get for the class Properties
 	public String getCity() {return city;};
 	public String getStreet(){return street;};
 	public int getHouseNumber() {return houseNumber;};

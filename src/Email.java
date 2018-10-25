@@ -1,6 +1,6 @@
 
 public class Email {
-
+//make sure that email is ok
 	String email;
 
 	public Email(String email) {
