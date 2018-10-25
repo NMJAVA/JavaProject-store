@@ -4,13 +4,13 @@ import java.lang.*;
 public class DataBaseHelper {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+	//getting the DB URL, you can Change Store to any database name you need
 	static final String DB_URL 		= "jdbc:mysql://localhost:3306/store?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	//sakila
-	//store
 
 	//  Database credentials
 	static final String USER = "root";
-	static final String PASS = "201Lion@1989";//"lion1989"; //"201Lion@1989";
+	//Data base password
+	static final String PASS = "201Lion@1989";
 
 	Connection conn = null;
 	Statement  stmt = null;

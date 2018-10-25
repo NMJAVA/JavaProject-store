@@ -133,7 +133,7 @@ public class ChatGUI extends GUIFunctinos{
 						//Acknowledge the server that a message will be send
 						toNetOutputStream.println("chat");
 						//the message with date and sender name
-					toNetOutputStream.println(new Date()+"|"+employee.getFirstName()+": "+text);
+					toNetOutputStream.println("["+new Date().getHours()+":"+new Date().getMinutes()+"] "+employee.getFirstName()+": "+text);
 					//Receiving the message with each 
 						chatBox.append(fromNetInputStram.readLine()+'\n');
 					} catch (IOException e1) {
@@ -195,7 +195,7 @@ public class ChatGUI extends GUIFunctinos{
 		text=null;
 		return res;
 	}
-	//Event for closing
+	
 	 private class eventForClose implements WindowListener {
 
 			@Override
